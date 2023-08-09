@@ -53,7 +53,8 @@ pawn can move if [x][y + 1][2] == 'Empty'
 where the 3d array can contain: 1. square, 2. Occupancy, 3. Possible other state condition re
 ** oooooh I can use the flexibility of the table here! 
 *** don't bother with square; it's evident from indexing and can be gotten with a simple function
-****
+**** Logic of conditions should be external to the board; 
+
 *** NEED TO CONFIRM IF LUA will maintain order of nested tables 
 
 Knight Moves:
