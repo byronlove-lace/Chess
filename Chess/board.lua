@@ -52,10 +52,25 @@ pawn_conditions: cannot move forward if blocked
 pawn can move if [x][y + 1][2] == 'Empty'
 where the 3d array can contain: 1. square, 2. Occupancy, 3. Possible other state condition re
 ** oooooh I can use the flexibility of the table here! 
+(actually, this is prolly a bad idea: too much complexity)
 *** don't bother with square; it's evident from indexing and can be gotten with a simple function
-**** Logic of conditions should be external to the board; 
-
+*** I should include color; while chess notation uses odds/evens turn number to indicate 
+white / black, this is to summarize the moves in a game; it's not good for programming chess
+hi
+e.g. color needs to be assessible to verify if an attack is possible or is the piece friendly *
 *** NEED TO CONFIRM IF LUA will maintain order of nested tables 
+
+CONDITION LOGIC:
+the condition logic should be external to the board
+and implamented through logic gate evaluation 
+        for square on board:
+                if [x][y][2] is 'W'/'B':
+                        if [x][y][1] = 'P'
+                                ... pawn move evaluation ...
+                                
+                                
+- asses possible moves off all availible pieces
+- player chooses piece
 
 Knight Moves:
 
@@ -82,8 +97,15 @@ rook_conditions:
 I know what some of the conditions are
 but how do i structure that data 
 conditions are linked to the pieces,
-but they are also dependent on location 
-
+but they are also dependent on 
+board_location - queen a pawn, castling_rules, en_passant
+relative positioning to other pieces: attacking/blocking for all pieces aside from knights, 
+relative positioning to specific pieces: check (cannot move into, must respond when it happens), check_mate, en_passant, castling
+the previous actions of other pieces: en_passant, castling,
+the lack of actions of other pieces
+*could this be something I could use linked lists to
+deal with -- I have no idea, i don't even know how linked
+lists work 
         
 
 
@@ -93,5 +115,15 @@ for will be movement in check
 since the only pieces player can move while in check
 are ones that will get the player out of check 
 
+check_evaluation needs to happen at the end of every turn:
+        all possible attack vectors of the moved piece are listed
+        for i in attack_vectors:
+                if [x][y][1] == 'K'
+        check = true
+
+        opp_turn: 
+        if_check = true then
+                
+        :
 -- o
 ]]
