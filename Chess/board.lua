@@ -56,7 +56,7 @@ where the 3d array can contain: 1. square, 2. Occupancy, 3. Possible other state
 *** don't bother with square; it's evident from indexing and can be gotten with a simple function
 *** I should include color; while chess notation uses odds/evens turn number to indicate 
 white / black, this is to summarize the moves in a game; it's not good for programming chess
-hi
+hi this is a test
 e.g. color needs to be assessible to verify if an attack is possible or is the piece friendly *
 *** NEED TO CONFIRM IF LUA will maintain order of nested tables 
 
