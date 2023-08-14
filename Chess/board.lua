@@ -8,7 +8,6 @@ end
 
 local board = {}
 local letters = 'abcdefgh'
-local pieces = { "K", "Q", "R", "B", "N", "P" }
 
 for i = 1, 8 do
         board[i] = {}
