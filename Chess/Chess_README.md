@@ -3,10 +3,10 @@
 
 ## Goals
 - [ ] Create 2D array for board
-- [ ] Create pawn game logic
-- [ ] Start on gl for higher value pieces
-- [ ] 
-- [ ] 
+- [X] Create pawn game logic
+    - [ ] Unit test
+- [ ] Create bishop logic
+- [ ] Create bishop logic
 
 ## Notes
 ### Game Logic
@@ -76,4 +76,12 @@ check_evaluation needs to happen at the end of every turn:
 
         opp_turn: 
         if_check = true then
-                
+
+### Queening a Pawn
+the logic for queenme should use last_move and check after the player has moved
+> player given a list of choices 
+> player chooses 
+> piece moves 
+> last_move set 
+> queenme_check (if lastmove[1] is "P" ... if lastmove[3], 2, 2 is "8") then P == Q
+> next turn starts 
