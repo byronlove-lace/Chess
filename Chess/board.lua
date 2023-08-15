@@ -172,19 +172,3 @@ for i = 1, #board do
                         if string.sub(board[i][j][2], 2, 2) == "P" then
                                 table.insert(movable_pieces, p_moves(turn, i, j))
                         
--- NOTES
-        -- where do i put this logic?
-        -- it doesn't really work within the moves / movable pieces table
-        -- it should prolly be part of a wider game logic, like for castling
-                -- if any of the left pawns move, then castle becomes impossible on that side
-                -- castle_left = false
-                -- if castle = true then additional moves are added to the kings movelist... 
-                -- (need to think about that some more)
-                -- likewise if any pawn is on the opposite side of the table
-                -- queen_pawn = true
-        -- !! the logic for queenme should use last_move and check after the player has moved
-        -- player given a list of choices > player chooses > piece moves > last_move set >
-        --    > queenme_check (if lastmove[1] is "P" ... if lastmove[3], 2, 2 is "8") then P == Q
-        --    > next turn starts 
-        --    queenme doesn't need to be included here as it doesn't pertain to a list of possible 
-        --    moves 
