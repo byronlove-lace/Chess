@@ -60,3 +60,59 @@ for i = 1, #board do
         end
 end
 
+-- Game Logic
+
+local turn = "W"
+local last_move = {"BP", "7b", "5b"} 
+-- piece, from, to
+
+
+-- Pawn Logic
+
+                
+for i = 1, #board do
+        for j = 1, #board[i] do
+                if string.sub(board[i][j][2], 1, 1) == turn then
+                        if string.sub(board[i][j][2], 2, 2) == "P" then
+                                -- single
+                                if board[i + 1][j][2] == "E" then
+                                        -- single
+
+                                -- double
+                                if string.sub(board[i][j][1], 2, 2) == "2" then
+                                        if board[i + 1][j][2] == "E" then
+                                                if board[i + 2][j][2] == "E" then
+                                                       -- double 
+
+                                -- queenme
+                                if string.sub(board[i][j][1], 2, 2) == "7" then
+                                        if board[i + 1][j][2] == "E" then
+                                                -- queenme
+
+                                -- take right
+                                if string.sub(board[i + 1][j + 1][2], 1, 1) == "B" then
+                                        -- take right
+
+                                -- take left
+                                if string.sub(board[i + 1][j - 1][2], 1, 1) == "B" then
+                                        -- take left
+                                
+                                -- en passant 
+                                if string.sub(board[i][j][1], 2, 2) == "5" then
+                                        if last_turn[1] == "BP" then
+                                                if board[i][j + 1][1] == last_turn[3] then
+                                                        if board[i + 1][j + 1][1] == "E" then
+                                                                -- en passant right
+                                                if board[i][j - 1][1] == last_turn[3] then
+                                                        if board[i + 1][j - 1][1] == "E" then
+                                                                -- en passant left
+                                if board[i][j][1] == "5" then
+                                        if board[i + 1][j][2] == "E" then
+
+
+                        
+
+
+
+
+
