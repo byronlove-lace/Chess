@@ -91,6 +91,9 @@ function p_moves(turn, row, column)
 
                         -- take right
                         if column < 8 then
+                                print(board[row][column][1])
+                                print(board[row + 1][column + 1][1])
+                                print(board[row + 1][column - 1][1])
                                 if string.sub(board[row + 1][column + 1][2], 1, 1) == "B" then
                                         table.insert(moves, {row + 1, colum + 1})
                                 end
@@ -183,7 +186,6 @@ for i = 1, #board do
         for j = 1, #board[i] do
                 if string.sub(board[i][j][2], 1, 1) == turn then
                         if string.sub(board[i][j][2], 2, 2) == "P" then
-                                print(p_moves(turn, i, j)) 
                                 table.insert(movable_pieces, p_moves(turn, i, j))
                         end
                 end
