@@ -91,17 +91,19 @@ function p_moves(turn, row, column)
 
                         -- take right
                         if column < 8 then
-                                print(board[row][column][1])
-                                print(board[row + 1][column + 1][1])
                                 if string.sub(board[row + 1][column + 1][2], 1, 1) == "B" then
-                                        table.insert(moves, {row + 1, colum + 1})
+                                        table.insert(moves, {row + 1, column + 1})
                                 end
                         end
 
                         -- take left
                         if column > 1 then
+                                board[3][4][2] = "BP"
+                                board[3][5][2] = "BP"
                                 if string.sub(board[row + 1][column - 1][2], 1, 1) == "B" then
-                                        table.insert(moves, {row + 1, colum - 1})
+                                        table.insert(moves, {row + 1, column - 1})
+                                        print(board[row][column][1]) 
+                                        print(board[row + 1][column - 1][1]) 
                                 end
                         end
                         
