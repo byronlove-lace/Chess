@@ -129,48 +129,51 @@ function p_moves(turn, row, column)
                 end
         end
 
+
         if turn == "B" then
-                -- single
-                if board[row - 1][column][2] == "E" then
-                        table.insert(moves, {row - 1, column}) 
+                if row > 1 then
+                        -- single
+                        if board[row - 1][column][2] == "E" then
+                                table.insert(moves, {row - 1, column}) 
 
-                -- double
-                        if string.sub(board[row][column][1], 2, 2) == "7" then
-                                if board[row - 2][column][2] == "E" then
-                                        table.insert(moves, {row - 2, colum})
-                                end
-                        end
-                end
-
-                -- take left
-                if string.sub(board[row - 1][column + 1][2], 1, 1) == "B" then
-                        table.insert(moves, {row - 1, colum + 1})
-                end
-
-                -- take right
-                if string.sub(board[row - 1][column - 1][2], 1, 1) == "B" then
-                        table.insert(moves, {row - 1, colum - 1})
-                end
-                
-                -- en passant 
-                if string.sub(board[row][column][1], 2, 2) == "4" then
-                        if last_turn[1] == "WP" then
-                                -- ep left
-                                if board[row][column + 1][1] == last_turn[3] then
-                                        if board[row - 1][column + 1][1] == "E" then
-                                                table.insert(moves, {row - 1, colum + 1})
-                                        end
-                                end
-                                -- ep right
-                                if board[row][column - 1][1] == last_turn[3] then
-                                        if board[row - 1][column - 1][1] == "E" then
-                                                table.insert(moves, {row - 1, column - 1})
+                        -- double
+                                if string.sub(board[row][column][1], 2, 2) == "7" then
+                                        if board[row - 2][column][2] == "E" then
+                                                table.insert(moves, {row - 2, colum})
                                         end
                                 end
                         end
-                end
 
-                return {"P", position, moves} 
+                        -- take left
+                        if string.sub(board[row - 1][column + 1][2], 1, 1) == "B" then
+                                table.insert(moves, {row - 1, colum + 1})
+                        end
+
+                        -- take right
+                        if string.sub(board[row - 1][column - 1][2], 1, 1) == "B" then
+                                table.insert(moves, {row - 1, colum - 1})
+                        end
+                        
+                        -- en passant 
+                        if string.sub(board[row][column][1], 2, 2) == "4" then
+                                if last_turn[1] == "WP" then
+                                        -- ep left
+                                        if board[row][column + 1][1] == last_turn[3] then
+                                                if board[row - 1][column + 1][1] == "E" then
+                                                        table.insert(moves, {row - 1, colum + 1})
+                                                end
+                                        end
+                                        -- ep right
+                                        if board[row][column - 1][1] == last_turn[3] then
+                                                if board[row - 1][column - 1][1] == "E" then
+                                                        table.insert(moves, {row - 1, column - 1})
+                                                end
+                                        end
+                                end
+                        end
+
+                        return {"P", position, moves} 
+                end
         end
 end
 
