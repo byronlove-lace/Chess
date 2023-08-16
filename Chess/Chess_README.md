@@ -6,7 +6,10 @@
 - [X] Create pawn game logic
     - [ ] Unit test
 - [ ] Create bishop logic
-- [ ] Create bishop logic
+- [ ] Create knight logic
+- [ ] Create a proper README
+- [ ] Move notes into WorkingNotes.md
+- [ ] Create a seperate branch for logic systems; create a sep branch on GH
 
 ## Notes
 ### Game Logic

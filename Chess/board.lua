@@ -76,47 +76,60 @@ function p_moves(turn, row, column)
         local moves = {}        
         
         if turn == "W" then
-                -- single
-                if board[row + 1][column][2] == "E" then
-                        table.insert(moves, {row + 1, column}) 
+                if row > 8 then
+                        -- single
+                        if board[row + 1][column][2] == "E" then
+                                table.insert(moves, {row + 1, column}) 
 
-                -- double
-                        if string.sub(board[row][column][1], 2, 2) == "2" then
-                                if board[row + 2][column][2] == "E" then
-                                        table.insert(moves, {row + 2, colum})
-                                end
-                        end
-                end
-
-                -- take right
-                if string.sub(board[row + 1][column + 1][2], 1, 1) == "B" then
-                        table.insert(moves, {row + 1, colum + 1})
-                end
-
-                -- take left
-                if string.sub(board[row + 1][column - 1][2], 1, 1) == "B" then
-                        table.insert(moves, {row + 1, colum - 1})
-                end
-                
-                -- en passant 
-                if string.sub(board[row][column][1], 2, 2) == "5" then
-                        if last_turn[1] == "BP" then
-                                -- ep right
-                                if board[row][column + 1][1] == last_turn[3] then
-                                        if board[row + 1][column + 1][1] == "E" then
-                                                table.insert(moves, {row + 1, colum + 1})
-                                        end
-                                end
-                                -- ep left
-                                if board[row][column - 1][1] == last_turn[3] then
-                                        if board[row + 1][column - 1][1] == "E" then
-                                                table.insert(moves, {row + 1, colum - 1})
+                        -- double
+                                if string.sub(board[row][column][1], 2, 2) == "2" then
+                                        if board[row + 2][column][2] == "E" then
+                                                table.insert(moves, {row + 2, colum})
+                                                print(board[row][column][1])
+                                                print(board[row + 1][column][1])
                                         end
                                 end
                         end
-                end
 
-                return {"P", position, moves} 
+                        -- take right
+                        if column < 8 then
+                                if string.sub(board[row + 1][column + 1][2], 1, 1) == "B" then
+                                        table.insert(moves, {row + 1, colum + 1})
+                                end
+                        end
+
+                        -- take left
+                        if column > 1 then
+                                if string.sub(board[row + 1][column - 1][2], 1, 1) == "B" then
+                                        table.insert(moves, {row + 1, colum - 1})
+                                end
+                        end
+                        
+                        -- en passant 
+                        if string.sub(board[row][column][1], 2, 2) == "5" then
+                                if last_turn[1] == "BP" then
+                                        -- ep right
+                                        if column < 8 then 
+                                                if board[row][column + 1][1] == last_turn[3] then
+                                                        if board[row + 1][column + 1][1] == "E" then
+                                                                table.insert(moves, {row + 1, colum + 1})
+                                                        end
+                                                end
+                                        end
+                                        -- ep left
+                                        if column > 1 then
+                                                if board[row][column - 1][1] == last_turn[3] then
+                                                        if board[row + 1][column - 1][1] == "E" then
+                                                                table.insert(moves, {row + 1, colum - 1})
+                                                        end
+                                                end
+                                        end
+                                end
+                        end
+
+
+                        return {"P", position, moves} 
+                end
         end
 
         if turn == "B" then
@@ -171,4 +184,8 @@ for i = 1, #board do
                 if string.sub(board[i][j][2], 1, 1) == turn then
                         if string.sub(board[i][j][2], 2, 2) == "P" then
                                 table.insert(movable_pieces, p_moves(turn, i, j))
-                        
+                        end
+                end
+        end
+end
+                
