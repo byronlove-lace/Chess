@@ -118,7 +118,8 @@ function p_moves(turn, row, column)
                                         -- ep left
                                         if column > 1 then
                                                 if board[row][column - 1][1] == last_move[3] then
-                                                        if board[row + 1][column - 1][1] == "E" then
+                                                        if board[row + 1][column - 1][2] == "E" then
+                                                                print('oh hi')
                                                                 table.insert(moves, {row + 1, column - 1})
                                                         end
                                                 end
@@ -180,7 +181,7 @@ end
 
 local movable_pieces = {}
 
-board[5][1][2] = "WP"
+board[5][3][2] = "WP"
 -- REMOVE ME
 for i = 1, #board do
         for j = 1, #board[i] do
