@@ -197,6 +197,9 @@ function n_moves(turn, row, column)
         for i = 1, #knight_moves do
                 if board[i[1]][i[2]] == true then
                         table.insert(possible_moves, i) 
+                end
+        end
+end
 
 local movable_pieces = {}
 
