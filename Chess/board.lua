@@ -182,6 +182,22 @@ function p_moves(turn, row, column)
         end
 end
 
+function n_moves(turn, row, column) 
+        possible_moves = {}
+        local knight_moves = { 
+        {row + 2, column + 1}, 
+        {row + 2, column - 1}, 
+        {row - 2, column + 1}, 
+        {row - 2, column - 1}, 
+        {row + 1, column + 2}, 
+        {row + 1, column - 2}, 
+        {row - 1, column + 2}, 
+        {row - 1, column - 2}, 
+}
+        for i = 1, #knight_moves do
+                if board[i[1]][i[2]] == true then
+                        table.insert(possible_moves, i) 
+
 local movable_pieces = {}
 
 
