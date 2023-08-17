@@ -62,8 +62,8 @@ end
 
 -- Game Logic
 
-local turn = "W"
-local last_move = {"BP", "b7", "b5"} 
+local turn = "B"
+local last_move = {"WP", "d2", "d4"} 
 -- piece, from, to
 
 
@@ -119,7 +119,6 @@ function p_moves(turn, row, column)
                                         if column > 1 then
                                                 if board[row][column - 1][1] == last_move[3] then
                                                         if board[row + 1][column - 1][2] == "E" then
-                                                                print('oh hi')
                                                                 table.insert(moves, {row + 1, column - 1})
                                                         end
                                                 end
@@ -146,28 +145,32 @@ function p_moves(turn, row, column)
                                 end
                         end
 
-                        -- take left
-                        if string.sub(board[row - 1][column + 1][2], 1, 1) == "B" then
-                                table.insert(moves, {row - 1, column + 1})
+                        -- take right
+                        if column < 8 then
+                                if string.sub(board[row - 1][column + 1][2], 1, 1) == "W" then
+                                        table.insert(moves, {row - 1, column + 1})
+                                end
                         end
 
-                        -- take right
-                        if string.sub(board[row - 1][column - 1][2], 1, 1) == "B" then
-                                table.insert(moves, {row - 1, column - 1})
+                        -- take left
+                        if column > 1 then
+                                if string.sub(board[row - 1][column - 1][2], 1, 1) == "W" then
+                                        table.insert(moves, {row - 1, column - 1})
+                                end
                         end
                         
                         -- en passant 
                         if string.sub(board[row][column][1], 2, 2) == "4" then
                                 if last_move[1] == "WP" then
-                                        -- ep left
+                                        -- ep right
                                         if board[row][column + 1][1] == last_move[3] then
-                                                if board[row - 1][column + 1][1] == "E" then
+                                                if board[row - 1][column + 1][2] == "E" then
                                                         table.insert(moves, {row - 1, column + 1})
                                                 end
                                         end
-                                        -- ep right
+                                        -- ep left
                                         if board[row][column - 1][1] == last_move[3] then
-                                                if board[row - 1][column - 1][1] == "E" then
+                                                if board[row - 1][column - 1][2] == "E" then
                                                         table.insert(moves, {row - 1, column - 1})
                                                 end
                                         end
@@ -181,8 +184,9 @@ end
 
 local movable_pieces = {}
 
-board[5][3][2] = "WP"
 -- REMOVE ME
+board[4][5][2] = "BP"
+
 for i = 1, #board do
         for j = 1, #board[i] do
                 if string.sub(board[i][j][2], 1, 1) == turn then
