@@ -106,7 +106,7 @@ function p_moves(turn, row, column)
                         -- en passant 
                         -- only works if the last turn was a double; you need to account for this
                         if string.sub(board[row][column][1], 2, 2) == "5" then
-                                if last_move[1] == "BP" then
+                                if string.sub(last_move[2], 2, 2) == "7" then
                                         -- ep right
                                         if column < 8 then 
                                                 if board[row][column + 1][1] == last_move[3] then
@@ -115,6 +115,7 @@ function p_moves(turn, row, column)
                                                         end
                                                 end
                                         end
+                                end
                                         -- ep left
                                         if column > 1 then
                                                 if board[row][column - 1][1] == last_move[3] then
@@ -128,7 +129,6 @@ function p_moves(turn, row, column)
 
                         return {"P", position, moves} 
                 end
-        end
 
 
         if turn == "B" then
@@ -161,7 +161,7 @@ function p_moves(turn, row, column)
                         
                         -- en passant 
                         if string.sub(board[row][column][1], 2, 2) == "4" then
-                                if last_move[1] == "WP" then
+                                if string.sub(last_move[2], 2, 2) == "2" then
                                         -- ep right
                                         if board[row][column + 1][1] == last_move[3] then
                                                 if board[row - 1][column + 1][2] == "E" then
@@ -184,8 +184,6 @@ end
 
 local movable_pieces = {}
 
--- REMOVE ME
-board[4][5][2] = "BP"
 
 for i = 1, #board do
         for j = 1, #board[i] do

@@ -39,6 +39,12 @@ tested
 tested 
 ## en passant right 
 tested
+
+## NOTE:
+added additional logic gate and tested
+prev turn not only needs to be enemy pawn
+but enemy pawn that started in starting row
+
 Note on perspective: the functional perspective 
 of piece movements is static > black moves forward = -y
 left is -x / right is +x for both pieces
