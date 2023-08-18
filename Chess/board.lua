@@ -62,11 +62,9 @@ end
 
 -- Game Logic
 
-local turn = "B"
+local turn = "W"
 local last_move = {"WP", "d2", "d4"} 
 -- piece, from, to
-
-
 
 -- Pawn Logic
 -- is there a better way to handle turn state here? 
@@ -183,7 +181,9 @@ function p_moves(turn, row, column)
 end
 
 function n_moves(turn, row, column) 
-        possible_moves = {}
+
+        local possible_moves = {}
+        local position = {row, colum}
         local knight_moves = { 
         {row + 2, column + 1}, 
         {row + 2, column - 1}, 
@@ -195,10 +195,18 @@ function n_moves(turn, row, column)
         {row - 1, column - 2}, 
 }
         for i = 1, #knight_moves do
-                if board[i[1]][i[2]] == true then
-                        table.insert(possible_moves, i) 
+
+                local r = knight_moves[i][1]
+                local c = knight_moves[i][2]
+                if board[r] ~= nil then
+                        if board[r][c] ~= nil then
+                                if board[r][c][2] == "E" then
+                                        table.insert(possible_moves, knight_moves[i]) 
+                                end
+                        end
                 end
         end
+        return {"N", position, possible_moves}
 end
 
 local movable_pieces = {}
@@ -209,6 +217,9 @@ for i = 1, #board do
                 if string.sub(board[i][j][2], 1, 1) == turn then
                         if string.sub(board[i][j][2], 2, 2) == "P" then
                                 table.insert(movable_pieces, p_moves(turn, i, j))
+                        end
+                        if string.sub(board[i][j][2], 2, 2) == "N" then
+                                table.insert(movable_pieces, n_moves(turn, i, j))
                         end
                 end
         end
