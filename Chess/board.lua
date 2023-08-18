@@ -200,7 +200,7 @@ function n_moves(turn, row, column)
                 local c = knight_moves[i][2]
                 if board[r] ~= nil then
                         if board[r][c] ~= nil then
-                                if board[r][c][2] == "E" then
+                                if string.sub(board[r][c][2], 2, 2]) ~= turn then
                                         table.insert(possible_moves, knight_moves[i]) 
                                 end
                         end
@@ -209,6 +209,43 @@ function n_moves(turn, row, column)
         return {"N", position, possible_moves}
 end
 
+function b_moves(turn, row, column)
+        possible_moves = {}
+        bishop_moves = {}
+        north_east = {} 
+        north_west = {}
+        south_east = {}
+        south_west = {}
+        for i = 1, 6 do
+                table.insert(north_east, {row + i, column + i})
+                table.insert(north_west, {row + i, column - i})
+                table.insert(south_east, {row - i, column + i})
+                table.insert(south_west, {row - i, column - i})
+        end
+        table.insert(bishop_moves, north_east)
+        table.insert(bishop_moves, north_west)
+        table.insert(bishop_moves, south_east)
+        table.insert(bishop_moves, south_west)
+        -- don't necessarily need table insert here
+        -- I think the following function can be done with list iteration: for table in list, for item in table, if item valid
+        -- add to possible moves and continue, if invalid: break table iteration, continue list iteration
+
+        for i = 1, #north_east do
+                r = north_east[i[1]] 
+                c = north_east[i[2]] 
+                if board[r] ~= nil then
+                        if board[r][c] ~= nil then
+                                if string.sub(board[r][c][2], 2, 2) == "W" then
+                                        break
+                                if string.sub(board[r][c][2], 2, 2) == "B" then
+                                        table.insert(possible_moves, {r, c}) 
+                                        break
+                                else table.insert(possible_moves, {r, c})
+-- 2 possible flaws here. 
+-- I've yet to develop a way to track attacks and pieces taken
+-- approach may return current position as a possible move?
+
+                        
 local movable_pieces = {}
 
 
@@ -224,4 +261,4 @@ for i = 1, #board do
                 end
         end
 end
-                
+
