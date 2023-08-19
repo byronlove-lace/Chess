@@ -219,7 +219,7 @@ function b_moves(turn, row, column)
         local south_west = {}
         local possible_moves = {}
 
-        for i = 1, 6 do
+        for i = 1, 7 do
                 north_east[i] = {row + i, column + i}
                 north_west[i] = {row + i, column - i}
                 south_east[i] = {row - i, column + i}
@@ -261,10 +261,6 @@ end
                         
 local movable_pieces = {}
 
-board[2][4][2] = 'E'
-board[4][6][2] = 'WP'
-
--- REMOVE ME
         
 for i = 1, #board do
         for j = 1, #board[i] do
