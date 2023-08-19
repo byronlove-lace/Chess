@@ -82,7 +82,7 @@ function p_moves(turn, row, column)
                         -- double
                                 if string.sub(board[row][column][1], 2, 2) == "2" then
                                         if board[row + 2][column][2] == "E" then
-                                                table.insert(moves, {row + 2, colum})
+                                                table.insert(moves, {row + 2, column})
                                         end
                                 end
                         end
@@ -138,7 +138,7 @@ function p_moves(turn, row, column)
                         -- double
                                 if string.sub(board[row][column][1], 2, 2) == "7" then
                                         if board[row - 2][column][2] == "E" then
-                                                table.insert(moves, {row - 2, colum})
+                                                table.insert(moves, {row - 2, column})
                                         end
                                 end
                         end
@@ -183,7 +183,7 @@ end
 function n_moves(turn, row, column) 
 
         local possible_moves = {}
-        local position = {row, colum}
+        local position = {row, column}
         local knight_moves = { 
         {row + 2, column + 1}, 
         {row + 2, column - 1}, 
@@ -200,7 +200,7 @@ function n_moves(turn, row, column)
                 local c = knight_moves[i][2]
                 if board[r] ~= nil then
                         if board[r][c] ~= nil then
-                                if string.sub(board[r][c][2], 2, 2]) ~= turn then
+                                if string.sub(board[r][c][2], 2, 2) ~= turn then
                                         table.insert(possible_moves, knight_moves[i]) 
                                 end
                         end
@@ -210,37 +210,52 @@ function n_moves(turn, row, column)
 end
 
 function b_moves(turn, row, column)
-        possible_moves = {}
-        bishop_moves = {}
-        north_east = {} 
-        north_west = {}
-        south_east = {}
-        south_west = {}
+local position = {row, column}
+local bishop_moves = {}
+local north_east = {} 
+local north_west = {}
+local south_east = {}
+local south_west = {}
         for i = 1, 6 do
                 table.insert(north_east, {row + i, column + i})
                 table.insert(north_west, {row + i, column - i})
                 table.insert(south_east, {row - i, column + i})
                 table.insert(south_west, {row - i, column - i})
         end
-        table.insert(bishop_moves, north_east)
-        table.insert(bishop_moves, north_west)
-        table.insert(bishop_moves, south_east)
-        table.insert(bishop_moves, south_west)
+        possible_moves = {
+                north_east, 
+                north_west,
+                south_east,
+                south_west,
+        }
         -- don't necessarily need table insert here
+        -- this can be cleaned up NE[i] = {row + i, column + 1} 
         -- I think the following function can be done with list iteration: for table in list, for item in table, if item valid
         -- add to possible moves and continue, if invalid: break table iteration, continue list iteration
+        -- bishops start on c1 and f1
 
-        for i = 1, #north_east do
-                r = north_east[i[1]] 
-                c = north_east[i[2]] 
-                if board[r] ~= nil then
-                        if board[r][c] ~= nil then
-                                if string.sub(board[r][c][2], 2, 2) == "W" then
-                                        break
-                                if string.sub(board[r][c][2], 2, 2) == "B" then
-                                        table.insert(possible_moves, {r, c}) 
-                                        break
-                                else table.insert(possible_moves, {r, c})
+        for i = 1, #bishop_moves do
+                for j = 1, #bishop_moves[i] do
+                        r = bishop_moves[i][j][1] 
+                        c = bishop_moves[i][j][2] 
+                        if board[r] ~= nil then
+                                if board[r][c] ~= nil then
+                                        if string.sub(board[r][c][2], 2, 2) == "W" then
+                                                break
+                                        end
+                                        if string.sub(board[r][c][2], 2, 2) == "B" then
+                                                table.insert(possible_moves, {r, c}) 
+                                                break
+                                        else 
+                                                table.insert(possible_moves, {r, c})
+                                        end
+                                end
+                        end
+                end
+        end
+        return {'B', position, possible_moves}
+end
+                                                
 -- 2 possible flaws here. 
 -- I've yet to develop a way to track attacks and pieces taken
 -- approach may return current position as a possible move?
@@ -257,6 +272,9 @@ for i = 1, #board do
                         end
                         if string.sub(board[i][j][2], 2, 2) == "N" then
                                 table.insert(movable_pieces, n_moves(turn, i, j))
+                        end
+                        if string.sub(board[i][j][2], 2, 2) == "B" then
+                                table.insert(movable_pieces, b_moves(turn, i, j))
                         end
                 end
         end
