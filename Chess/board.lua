@@ -88,8 +88,7 @@ function p_moves(turn, row, column)
                         end
 
                         -- take right
-                        if column < 8 then
-                                if string.sub(board[row + 1][column + 1][2], 1, 1) == "B" then
+                        if column < 8 then if string.sub(board[row + 1][column + 1][2], 1, 1) == "B" then
                                         table.insert(moves, {row + 1, column + 1})
                                 end
                         end
@@ -209,6 +208,31 @@ function n_moves(turn, row, column)
         return {"N", position, possible_moves}
 end
 
+function valid_move(max_moves)
+        valid_moves = {}
+        for i = 1, #max_moves do
+                for j = 1, #max_moves[i] do
+                        local r = max_moves[i][j][1] 
+                        local c = max_moves[i][j][2] 
+                        if board[r] ~= nil then
+                                if board[r][c] ~= nil then
+                                        if string.sub(board[r][c][2], 1, 1) == "W" then
+                                                break
+                                        end
+                                        if string.sub(board[r][c][2], 1, 1) == "B" then
+                                                table.insert(valid_moves, {r, c}) 
+                                                break
+                                        end
+                                        if board[r][c][2] == "E" then
+                                                table.insert(valid_moves, {r, c})
+                                        end
+                                end
+                        end
+                end
+        return valid_moves                
+        end
+end
+
 function b_moves(turn, row, column)
 
         local position = {row, column}
@@ -233,35 +257,28 @@ function b_moves(turn, row, column)
                 south_west,
         }
 
-        for i = 1, #bishop_moves do
-                for j = 1, #bishop_moves[i] do
-                        local r = bishop_moves[i][j][1] 
-                        local c = bishop_moves[i][j][2] 
-                        if board[r] ~= nil then
-                                if board[r][c] ~= nil then
-                                        if string.sub(board[r][c][2], 1, 1) == "W" then
-                                                break
-                                        end
-                                        if string.sub(board[r][c][2], 1, 1) == "B" then
-                                                table.insert(possible_moves, {r, c}) 
-                                                break
-                                        end
-                                        if board[r][c][2] == "E" then
-                                                table.insert(possible_moves, {r, c})
-                                        end
-                                end
-                        end
-                end
-        end
-        for i = 1, #possible_moves do
-                print(possible_moves[i][1], possible_moves[i][2]) 
-        end
-        return {'B', position, possible_moves}
+        return {'B', position, valid_move(bishop_moves)}
 end
                         
+function r_moves(turn, row, column)
+        local north = {}
+        local south = {}
+        local west = {}
+        local east = {}
+
+        for i = 1, 7 do
+                north[i] = {row + 1}
+                south[i] = {row - 1}
+                west[i] = {column + 1}
+                east[i] = {column - 1}
+        end
+
+        local rook_moves = {north, south, east, west}
+        return {"R", position, valid_move(rook_moves)}
+end
+
 local movable_pieces = {}
 
-        
 for i = 1, #board do
         for j = 1, #board[i] do
                 if string.sub(board[i][j][2], 1, 1) == turn then
