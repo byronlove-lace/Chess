@@ -217,21 +217,18 @@ local north_west = {}
 local south_east = {}
 local south_west = {}
         for i = 1, 6 do
-                table.insert(north_east, {row + i, column + i})
-                table.insert(north_west, {row + i, column - i})
-                table.insert(south_east, {row - i, column + i})
-                table.insert(south_west, {row - i, column - i})
+                north_east[i] = {row + i, column + i}
+                north_west[i] = {row + i, column - i}
+                south_east[i] = {row - i, column + i}
+                south_west[i] = {row - i, column - i}
         end
-        possible_moves = {
+        bishop_moves = {
                 north_east, 
                 north_west,
                 south_east,
                 south_west,
         }
-        -- don't necessarily need table insert here
         -- this can be cleaned up NE[i] = {row + i, column + 1} 
-        -- I think the following function can be done with list iteration: for table in list, for item in table, if item valid
-        -- add to possible moves and continue, if invalid: break table iteration, continue list iteration
         -- bishops start on c1 and f1
 
         for i = 1, #bishop_moves do
@@ -246,24 +243,23 @@ local south_west = {}
                                         if string.sub(board[r][c][2], 2, 2) == "B" then
                                                 table.insert(possible_moves, {r, c}) 
                                                 break
-                                        else 
+                                        end
+                                        if string.sub(board[r][c][2], 2, 2) == "E" then
                                                 table.insert(possible_moves, {r, c})
                                         end
                                 end
                         end
                 end
         end
+        for i = 1, #possible_moves do print(possible_moves[i][1], possible_moves[i][2]) end
         return {'B', position, possible_moves}
 end
-                                                
--- 2 possible flaws here. 
--- I've yet to develop a way to track attacks and pieces taken
--- approach may return current position as a possible move?
-
                         
 local movable_pieces = {}
 
-
+board[2][4][2] = 'E'
+-- REMOVE ME
+        
 for i = 1, #board do
         for j = 1, #board[i] do
                 if string.sub(board[i][j][2], 1, 1) == turn then
