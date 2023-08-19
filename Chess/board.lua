@@ -210,54 +210,60 @@ function n_moves(turn, row, column)
 end
 
 function b_moves(turn, row, column)
-local position = {row, column}
-local bishop_moves = {}
-local north_east = {} 
-local north_west = {}
-local south_east = {}
-local south_west = {}
+
+        local position = {row, column}
+        local bishop_moves = {}
+        local north_east = {} 
+        local north_west = {}
+        local south_east = {}
+        local south_west = {}
+        local possible_moves = {}
+
         for i = 1, 6 do
                 north_east[i] = {row + i, column + i}
                 north_west[i] = {row + i, column - i}
                 south_east[i] = {row - i, column + i}
                 south_west[i] = {row - i, column - i}
         end
+
         bishop_moves = {
                 north_east, 
                 north_west,
                 south_east,
                 south_west,
         }
-        -- this can be cleaned up NE[i] = {row + i, column + 1} 
-        -- bishops start on c1 and f1
 
         for i = 1, #bishop_moves do
                 for j = 1, #bishop_moves[i] do
-                        r = bishop_moves[i][j][1] 
-                        c = bishop_moves[i][j][2] 
+                        local r = bishop_moves[i][j][1] 
+                        local c = bishop_moves[i][j][2] 
                         if board[r] ~= nil then
                                 if board[r][c] ~= nil then
-                                        if string.sub(board[r][c][2], 2, 2) == "W" then
+                                        if string.sub(board[r][c][2], 1, 1) == "W" then
                                                 break
                                         end
-                                        if string.sub(board[r][c][2], 2, 2) == "B" then
+                                        if string.sub(board[r][c][2], 1, 1) == "B" then
                                                 table.insert(possible_moves, {r, c}) 
                                                 break
                                         end
-                                        if string.sub(board[r][c][2], 2, 2) == "E" then
+                                        if board[r][c][2] == "E" then
                                                 table.insert(possible_moves, {r, c})
                                         end
                                 end
                         end
                 end
         end
-        for i = 1, #possible_moves do print(possible_moves[i][1], possible_moves[i][2]) end
+        for i = 1, #possible_moves do
+                print(possible_moves[i][1], possible_moves[i][2]) 
+        end
         return {'B', position, possible_moves}
 end
                         
 local movable_pieces = {}
 
 board[2][4][2] = 'E'
+board[4][6][2] = 'WP'
+
 -- REMOVE ME
         
 for i = 1, #board do
