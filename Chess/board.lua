@@ -309,6 +309,33 @@ function q_moves(turn, row, column)
         return {"Q", position, valid_move(queen_moves)}
 end
                         
+function k_moves(turn, row, column)
+
+        local position = {row, column}
+        local north = {}
+        local south = {}
+        local west = {}
+        local east = {}
+        local north_east = {} 
+        local north_west = {}
+        local south_east = {}
+        local south_west = {}
+
+        for i = 1, 7 do
+                north[i] = {row + 1, column}
+                south[i] = {row - 1, column}
+                west[i] = {row, column + 1}
+                east[i] = {row, column - 1}
+                north_east[i] = {row + 1, column + 1}
+                north_west[i] = {row + 1, column - 1}
+                south_east[i] = {row - 1, column + 1}
+                south_west[i] = {row - 1, column - 1}
+        end
+
+        local king_moves = {north, south, east, west, north_east, north_west, south_east, south_west}
+        return {"K", position, valid_move(queen_moves)}
+end
+
 local movable_pieces = {}
 board[2][4][2] = 'E'
 print(board[2][4][1])
