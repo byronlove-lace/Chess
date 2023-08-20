@@ -264,9 +264,27 @@ function b_moves(turn, row, column)
 
         return {'B', position, valid_move(bishop_moves)}
 end
+
+function r_moves(turn, row, column)
+        local north = {}
+        local south = {}
+        local west = {}
+        local east = {}
+
+        for i = 1, 7 do
+                north[i] = {row + i, column}
+                south[i] = {row - i, column}
+                west[i] = {row, column + i}
+                east[i] = {row, column - i}
+        end
+
+        local rook_moves = {north, south, east, west}
+        return {"R", position, valid_move(rook_moves)}
+end
                         
 local movable_pieces = {}
-board[2][2][2] = 'E'
+board[2][1][2] = 'E'
+print(board[2][1][1])
         
 for i = 1, #board do
         for j = 1, #board[i] do
@@ -279,6 +297,9 @@ for i = 1, #board do
                         end
                         if string.sub(board[i][j][2], 2, 2) == "B" then
                                 table.insert(movable_pieces, b_moves(turn, i, j))
+                        end
+                        if string.sub(board[i][j][2], 2, 2) == "R" then
+                                table.insert(movable_pieces, r_moves(turn, i, j))
                         end
                 end
         end
