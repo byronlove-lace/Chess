@@ -209,6 +209,35 @@ function n_moves(turn, row, column)
         return {"N", position, possible_moves}
 end
 
+function valid_move(max_moves)
+        possible_moves = {}
+        for i = 1, #max_moves do
+                for j = 1, #max_moves[i] do
+                        local r = max_moves[i][j][1] 
+                        local c = max_moves[i][j][2] 
+                        if board[r] ~= nil then
+                                if board[r][c] ~= nil then
+                                        if string.sub(board[r][c][2], 1, 1) == turn then
+                                                break
+                                        end
+                                        if string.sub(board[r][c][2], 1, 1) ~= turn then
+                                                if board[r][c][2] == "E" then
+                                                        table.insert(possible_moves, {r, c})
+                                                else
+                                                        table.insert(possible_moves, {r, c}) 
+                                                        break
+                                                end
+                                        end
+                                end
+                        end
+                end
+        end
+        for i = 1, #possible_moves do
+                print(possible_moves[i][1], possible_moves[i][2]) 
+        end
+        return possible_moves
+end
+
 function b_moves(turn, row, column)
 
         local position = {row, column}
@@ -233,35 +262,11 @@ function b_moves(turn, row, column)
                 south_west,
         }
 
-        for i = 1, #bishop_moves do
-                for j = 1, #bishop_moves[i] do
-                        local r = bishop_moves[i][j][1] 
-                        local c = bishop_moves[i][j][2] 
-                        if board[r] ~= nil then
-                                if board[r][c] ~= nil then
-                                        if string.sub(board[r][c][2], 1, 1) == turn then
-                                                break
-                                        end
-                                        if string.sub(board[r][c][2], 1, 1) ~= turn then
-                                                if board[r][c][2] == "E" then
-                                                        table.insert(possible_moves, {r, c})
-                                                else
-                                                        table.insert(possible_moves, {r, c}) 
-                                                        break
-                                                end
-                                        end
-                                end
-                        end
-                end
-        end
-        for i = 1, #possible_moves do
-                print(possible_moves[i][1], possible_moves[i][2]) 
-        end
-        return {'B', position, possible_moves}
+        return {'B', position, valid_move(bishop_moves)}
 end
                         
 local movable_pieces = {}
-board[2][4][2] = 'E'
+board[2][2][2] = 'E'
         
 for i = 1, #board do
         for j = 1, #board[i] do
