@@ -312,28 +312,18 @@ end
 function k_moves(turn, row, column)
 
         local position = {row, column}
-        local north = {}
-        local south = {}
-        local west = {}
-        local east = {}
-        local north_east = {} 
-        local north_west = {}
-        local south_east = {}
-        local south_west = {}
 
-        for i = 1, 7 do
-                north[i] = {row + 1, column}
-                south[i] = {row - 1, column}
-                west[i] = {row, column + 1}
-                east[i] = {row, column - 1}
-                north_east[i] = {row + 1, column + 1}
-                north_west[i] = {row + 1, column - 1}
-                south_east[i] = {row - 1, column + 1}
-                south_west[i] = {row - 1, column - 1}
-        end
+        local north = {{row + 1, column}}
+        local south = {{row - 1, column}}
+        local west = {{row, column + 1}}
+        local east = {{row, column - 1}}
+        local north_east = {{row + 1, column + 1}}
+        local north_west = {{row + 1, column - 1}}
+        local south_east = {{row - 1, column + 1}}
+        local south_west = {{row - 1, column - 1}}
 
         local king_moves = {north, south, east, west, north_east, north_west, south_east, south_west}
-        return {"K", position, valid_move(queen_moves)}
+        return {"K", position, valid_move(king_moves)}
 end
 
 local movable_pieces = {}
@@ -357,6 +347,9 @@ for i = 1, #board do
                         end
                         if string.sub(board[i][j][2], 2, 2) == "Q" then
                                 table.insert(movable_pieces, q_moves(turn, i, j))
+                        end
+                        if string.sub(board[i][j][2], 2, 2) == "K" then
+                                table.insert(movable_pieces, k_moves(turn, i, j))
                         end
                 end
         end
