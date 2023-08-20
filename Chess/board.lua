@@ -52,7 +52,7 @@ for i = 1, #board do
                         board[i][j][2] = "BQ"
                 end
                 if board[i][j][1] == "e1" then
-                        board[i][j][2] = "BQ"
+                        board[i][j][2] = "WK"
                 end
                 if board[i][j][1] == "e8" then
                         board[i][j][2] = "BK"
@@ -241,7 +241,6 @@ end
 function b_moves(turn, row, column)
 
         local position = {row, column}
-        local bishop_moves = {}
         local north_east = {} 
         local north_west = {}
         local south_east = {}
@@ -266,6 +265,7 @@ function b_moves(turn, row, column)
 end
 
 function r_moves(turn, row, column)
+        local position = {row, column}
         local north = {}
         local south = {}
         local west = {}
@@ -281,10 +281,37 @@ function r_moves(turn, row, column)
         local rook_moves = {north, south, east, west}
         return {"R", position, valid_move(rook_moves)}
 end
+
+function q_moves(turn, row, column)
+
+        local position = {row, column}
+        local north = {}
+        local south = {}
+        local west = {}
+        local east = {}
+        local north_east = {} 
+        local north_west = {}
+        local south_east = {}
+        local south_west = {}
+
+        for i = 1, 7 do
+                north[i] = {row + i, column}
+                south[i] = {row - i, column}
+                west[i] = {row, column + i}
+                east[i] = {row, column - i}
+                north_east[i] = {row + i, column + i}
+                north_west[i] = {row + i, column - i}
+                south_east[i] = {row - i, column + i}
+                south_west[i] = {row - i, column - i}
+        end
+
+        local queen_moves = {north, south, east, west, north_east, north_west, south_east, south_west}
+        return {"Q", position, valid_move(queen_moves)}
+end
                         
 local movable_pieces = {}
-board[2][1][2] = 'E'
-print(board[2][1][1])
+board[2][4][2] = 'E'
+print(board[2][4][1])
         
 for i = 1, #board do
         for j = 1, #board[i] do
@@ -300,6 +327,9 @@ for i = 1, #board do
                         end
                         if string.sub(board[i][j][2], 2, 2) == "R" then
                                 table.insert(movable_pieces, r_moves(turn, i, j))
+                        end
+                        if string.sub(board[i][j][2], 2, 2) == "Q" then
+                                table.insert(movable_pieces, q_moves(turn, i, j))
                         end
                 end
         end
