@@ -50,7 +50,7 @@ end
 function love.draw()
         love.graphics.draw(board.image, 0, 0)
         love.graphics.setColor(70/255, 200/255, 235/255, 1)
-        love.graphics.rectangle("fill", 7, 7, 90, 90)
+        love.graphics.rectangle("fill", 7 + 90, 7 + 90, 90, 90)
         love.graphics.setColor(1, 1, 1, 1)
         love.graphics.draw(pieces.black_pawn.image, pieces.black_pawn.first.x, pieces.black_pawn.first.y)
         love.graphics.draw(pieces.white_pawn.image, pieces.white_pawn.first.x, pieces.white_pawn.first.y)
