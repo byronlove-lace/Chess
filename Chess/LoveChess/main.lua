@@ -11,8 +11,8 @@ function love.load()
                 black_pawn = {
                 image = love.graphics.newImage('sprites/black_pawn.png'),
                 first = {
-                        x = 7 + (88.25 * 1) + 15.5,
-                        y = 7 + (88.25 * 1) + 15.5
+                        x = 7 + (88.25 * 4) + 15.5,
+                        y = 7 + (88.25 * 4) + 15.5
                 },
                 second = {},
                 third = {},
