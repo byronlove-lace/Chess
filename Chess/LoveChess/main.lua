@@ -22,6 +22,8 @@ function love.load()
                 eight = {}
                 }
         }
+        selector = {
+        }
 end
 
 
@@ -30,6 +32,9 @@ end
 
 function love.draw()
         love.graphics.draw(board.image)
+        love.graphics.setColor(70/255, 200/255, 235/255, 1)
+        love.graphics.rectangle("fill", 5, 5, 80, 80)
+        love.graphics.setColor(1, 1, 1, 1)
         love.graphics.draw(pieces.black_pawn.image, pieces.black_pawn.first.x, pieces.black_pawn.first.y)
 end
 
