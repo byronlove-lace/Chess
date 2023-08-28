@@ -181,6 +181,18 @@ function love.update(dt)
                 if scancode == "j" then
                         selector.y = selector.y + board.square
                 end
+
+                if scancode == "k" then
+                        selector.y = selector.y - board.square
+                end
+
+                if scancode == "h" then
+                        selector.x = selector.x - board.square
+                end
+
+                if scancode == "l" then
+                        selector.x = selector.x + board.square
+                end
         end
 end
 
