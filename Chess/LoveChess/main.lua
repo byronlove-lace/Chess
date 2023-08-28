@@ -61,14 +61,132 @@ function init_board()
         return initial_board
 end
 
-function love.load()
+function p_moves(turn, row, column) 
+
+        local position = {row, column}
+        local moves = {}        
         
-        board_state = init_board()
+        if turn == "white" then
+                if row < 8 then
+                        -- single
+                        
+                        --[[
+                        for i = 1, #pieces do
+                                for j in pieces[i] do
+                                        if pieces[i][j][pos_x] == row then
+                                        --]]                     
+                                        
+                        if board[row + 1][column][2] == "E" then
+                                table.insert(moves, {row + 1, column}) 
+
+                        -- double
+                                if string.sub(board[row][column][1], 2, 2) == "2" then
+                                        if board[row + 2][column][2] == "E" then
+                                                table.insert(moves, {row + 2, column})
+                                        end
+                                end
+                        end
+
+                        -- take right
+                        if column < 8 then
+                                if string.sub(board[row + 1][column + 1][2], 1, 1) == "B" then
+                                        table.insert(moves, {row + 1, column + 1})
+                                end
+                        end
+
+                        -- take left
+                        if column > 1 then
+                                if string.sub(board[row + 1][column - 1][2], 1, 1) == "B" then
+                                        table.insert(moves, {row + 1, column - 1})
+                                end
+                        end
+                        
+                        -- en passant 
+                        -- only works if the last turn was a double; you need to account for this
+                        if string.sub(board[row][column][1], 2, 2) == "5" then
+                                if string.sub(last_move[2], 2, 2) == "7" then
+                                        -- ep right
+                                        if column < 8 then 
+                                                if board[row][column + 1][1] == last_move[3] then
+                                                        if board[row + 1][column + 1][2] == "E" then
+                                                                table.insert(moves, {row + 1, column + 1})
+                                                        end
+                                                end
+                                        end
+                                end
+                                        -- ep left
+                                        if column > 1 then
+                                                if board[row][column - 1][1] == last_move[3] then
+                                                        if board[row + 1][column - 1][2] == "E" then
+                                                                table.insert(moves, {row + 1, column - 1})
+                                                        end
+                                                end
+                                        end
+                                end
+                        end
+
+                        return {moves} 
+                end
+
+        if turn == "B" then
+                if row > 1 then
+                        -- single
+                        if board[row - 1][column][2] == "E" then
+                                table.insert(moves, {row - 1, column}) 
+
+                        -- double
+                                if string.sub(board[row][column][1], 2, 2) == "7" then
+                                        if board[row - 2][column][2] == "E" then
+                                                table.insert(moves, {row - 2, column})
+                                        end
+                                end
+                        end
+
+                        -- take right
+                        if column < 8 then
+                                if string.sub(board[row - 1][column + 1][2], 1, 1) == "W" then
+                                        table.insert(moves, {row - 1, column + 1})
+                                end
+                        end
+
+                        -- take left
+                        if column > 1 then
+                                if string.sub(board[row - 1][column - 1][2], 1, 1) == "W" then
+                                        table.insert(moves, {row - 1, column - 1})
+                                end
+                        end
+                        
+                        -- en passant 
+                        if string.sub(board[row][column][1], 2, 2) == "4" then
+                                if string.sub(last_move[2], 2, 2) == "2" then
+                                        -- ep right
+                                        if board[row][column + 1][1] == last_move[3] then
+                                                if board[row - 1][column + 1][2] == "E" then
+                                                        table.insert(moves, {row - 1, column + 1})
+                                                end
+                                        end
+                                        -- ep left
+                                        if board[row][column - 1][1] == last_move[3] then
+                                                if board[row - 1][column - 1][2] == "E" then
+                                                        table.insert(moves, {row - 1, column - 1})
+                                                end
+                                        end
+                                end
+                        end
+
+                        return {moves} 
+                end
+        end
+end
+
+function love.load()
 
         board = {
                 image = love.graphics.newImage('sprites/board.png'),
                 border = 7,
-                square = 88.25
+                square = 88.25,
+                state = init_board(),
+                turn = "white"
         }
 
         pieces = {
@@ -76,16 +194,55 @@ function love.load()
                 white_pawn = {
                         image = love.graphics.newImage('sprites/white_pawn.png'),
                         first = {
+                                in_play = true,
+                                moves = {},
                                 x = board.border + (board.square * 6) + 15.5,
                                 y = board.border + (board.square * 6) + 15.5,
                         },
-                        second = {},
-                        third = {},
-                        fourth = {},
-                        fifth = {},
-                        sixth = {},
-                        seventh = {},
-                        eight = {}
+                        second = {
+                                in_play = true,
+                                moves = {},
+                                pos_x = 6,
+                                pos_y = 6,
+                                x = board.border + (board.square * pos_x - 1) + 15.5,
+                                y = board.border + (board.square * pos_y - 1) + 15.5
+                        },
+                        third = {
+                                in_play = true,
+                                moves = {},
+                                x = board.border + (board.square * 6) + 15.5,
+                                y = board.border + (board.square * 6) + 15.5,
+                        },
+                        fourth = {
+                                in_play = true,
+                                moves = {},
+                                x = board.border + (board.square * 6) + 15.5,
+                                y = board.border + (board.square * 6) + 15.5,
+                        },
+                        fifth = {
+                                in_play = true,
+                                moves = {},
+                                x = board.border + (board.square * 6) + 15.5,
+                                y = board.border + (board.square * 6) + 15.5,
+                        },
+                        sixth = {
+                                in_play = true,
+                                moves = {},
+                                x = board.border + (board.square * 6) + 15.5,
+                                y = board.border + (board.square * 6) + 15.5,
+                        },
+                        seventh = {
+                                in_play = true,
+                                moves = {},
+                                x = board.border + (board.square * 6) + 15.5,
+                                y = board.border + (board.square * 6) + 15.5,
+                        },
+                        eight = {
+                                in_play = true,
+                                moves = {},
+                                x = board.border + (board.square * 6) + 15.5,
+                                y = board.border + (board.square * 6) + 15.5,
+                        }
                 },
 
                 white_knight = {
@@ -117,6 +274,8 @@ function love.load()
 
                 white_king = {
                         image = love.graphics.newImage('sprites/white_king.png'),
+                        castle_left = true,
+                        castle_right = true,
                         first = {},
                         second = {}
                 },
@@ -124,16 +283,53 @@ function love.load()
                 black_pawn = {
                         image = love.graphics.newImage('sprites/black_pawn.png'),
                         first = {
+                                in_play = true,
+                                moves = {},
                                 x = board.border + (board.square * 4) + 15.5,
                                 y = board.border + (board.square * 4) + 15.5
                         },
-                                second = {},
-                                third = {},
-                                fourth = {},
-                                fifth = {},
-                                sixth = {},
-                                seventh = {},
-                                eight = {}
+                                second = {
+                                in_play = true,
+                                moves = {},
+                                x = board.border + (board.square * 6) + 15.5,
+                                y = board.border + (board.square * 6) + 15.5,
+                                },
+                                third = {
+                                in_play = true,
+                                moves = {},
+                                x = board.border + (board.square * 6) + 15.5,
+                                y = board.border + (board.square * 6) + 15.5,
+                                },
+                                fourth = {
+                                in_play = true,
+                                moves = {},
+                                x = board.border + (board.square * 6) + 15.5,
+                                y = board.border + (board.square * 6) + 15.5,
+                                },
+                                fifth = {
+                                in_play = true,
+                                moves = {},
+                                x = board.border + (board.square * 6) + 15.5,
+                                y = board.border + (board.square * 6) + 15.5,
+                                },
+                                sixth = {
+                                in_play = true,
+                                moves = {},
+                                x = board.border + (board.square * 6) + 15.5,
+                                y = board.border + (board.square * 6) + 15.5,
+                                },
+                                seventh = {
+                                in_play = true,
+                                moves = {},
+                                x = board.border + (board.square * 6) + 15.5,
+                                y = board.border + (board.square * 6) + 15.5,
+                                },
+                                eight = {
+                                in_play = true,
+                                moves = {},
+                                x = board.border + (board.square * 6) + 15.5,
+                                y = board.border + (board.square * 6) + 15.5,
+                                }
                         },
 
                 black_knight = {
@@ -165,34 +361,48 @@ function love.load()
 
                 black_king = {
                         image = love.graphics.newImage('sprites/black_king.png'),
+                        castle_left = true,
+                        castle_right = true,
                         first = {},
                         second = {}
                 },
         }
+
         selector = {
+                choose = false,
                 x = board.border,
                 y = board.border
         }
 end
 
-
 function love.update(dt)
-        function love.keypressed(key, scancode)
-                if scancode == "j" then
-                        selector.y = selector.y + board.square
-                end
+        if selector.choose == false then
+                function love.keypressed(key, scancode)
 
-                if scancode == "k" then
-                        selector.y = selector.y - board.square
-                end
+                        if scancode == "j" then
+                                selector.y = selector.y + board.square
+                        end
 
-                if scancode == "h" then
-                        selector.x = selector.x - board.square
-                end
+                        if scancode == "k" then
+                                selector.y = selector.y - board.square
+                        end
 
-                if scancode == "l" then
-                        selector.x = selector.x + board.square
+                        if scancode == "h" then
+                                selector.x = selector.x - board.square
+                        end
+
+                        if scancode == "l" then
+                                selector.x = selector.x + board.square
+                        end
+
+                        if scancode == "Enter" then
+                                selector.choose = true
+                        end
                 end
+        else
+                -- if selector.choose == true
+                -- Problem: this square should have a piece that has possible moves; else enter should do nothing
+                -- end: selector.choose = false
         end
 end
 
