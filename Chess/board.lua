@@ -341,18 +341,23 @@ for i = 1, #board do
                         if string.sub(board[i][j][2], 2, 2) == "P" then
                                 table.insert(movable_pieces, p_moves(turn, i, j))
                         end
+
                         if string.sub(board[i][j][2], 2, 2) == "N" then
                                 table.insert(movable_pieces, n_moves(turn, i, j))
                         end
+
                         if string.sub(board[i][j][2], 2, 2) == "B" then
                                 table.insert(movable_pieces, b_moves(turn, i, j))
                         end
+
                         if string.sub(board[i][j][2], 2, 2) == "R" then
                                 table.insert(movable_pieces, r_moves(turn, i, j))
                         end
+
                         if string.sub(board[i][j][2], 2, 2) == "Q" then
                                 table.insert(movable_pieces, q_moves(turn, i, j))
                         end
+
                         if string.sub(board[i][j][2], 2, 2) == "K" then
                                 table.insert(movable_pieces, k_moves(turn, i, j))
                         end

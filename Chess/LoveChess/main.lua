@@ -170,19 +170,24 @@ function love.load()
                 },
         }
         selector = {
-                x = 0,
-                y = 0
+                x = board.border,
+                y = board.border
         }
 end
 
 
 function love.update(dt)
+        function love.keypressed(key, scancode)
+                if scancode == "j" then
+                        selector.y = selector.y + board.square
+                end
+        end
 end
 
 function love.draw()
         love.graphics.draw(board.image, 0, 0)
         love.graphics.setColor(70/255, 200/255, 235/255, 1)
-        love.graphics.rectangle("fill", board.border, board.border, 90, 90)
+        love.graphics.rectangle("fill", selector.x, selector.y, 90, 90)
         love.graphics.setColor(1, 1, 1, 1)
         love.graphics.draw(pieces.black_pawn.image, pieces.black_pawn.first.x, pieces.black_pawn.first.y)
         love.graphics.draw(pieces.white_pawn.image, pieces.white_pawn.first.x, pieces.white_pawn.first.y)
