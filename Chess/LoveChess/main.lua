@@ -223,16 +223,16 @@ function love.load()
 
                 white_queen = {
                         image = love.graphics.newImage('sprites/white_queen.png'),
-                        first = {},
-                        second = {}
+                        x = 1,
+                        y = 1
                 },
 
                 white_king = {
                         image = love.graphics.newImage('sprites/white_king.png'),
                         castle_left = true,
                         castle_right = true,
-                        first = {},
-                        second = {}
+                        x = 1,
+                        y = 1
                 },
 
                 black_pawn = {
@@ -375,11 +375,6 @@ function love.draw()
 
         love.graphics.setColor(1, 1, 1, 1)
 
-        love.graphics.draw(
-        pieces.black_pawn.image, 
-        board.position(pieces.black_pawn.first.x), 
-        board.position(pieces.black_pawn.first.y)
-        )
 
         love.graphics.draw(
         pieces.white_pawn.image, 
@@ -388,9 +383,213 @@ function love.draw()
         )
 
         love.graphics.draw(
+        pieces.white_pawn.image, 
+        board.position(pieces.white_pawn.second.x), 
+        board.position(pieces.white_pawn.second.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_pawn.image, 
+        board.position(pieces.white_pawn.third.x), 
+        board.position(pieces.white_pawn.third.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_pawn.image, 
+        board.position(pieces.white_pawn.fourth.x), 
+        board.position(pieces.white_pawn.fourth.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_pawn.image, 
+        board.position(pieces.white_pawn.fifth.x), 
+        board.position(pieces.white_pawn.fifth.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_pawn.image, 
+        board.position(pieces.white_pawn.sixth.x), 
+        board.position(pieces.white_pawn.sixth.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_pawn.image, 
+        board.position(pieces.white_pawn.seventh.x), 
+        board.position(pieces.white_pawn.seventh.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_pawn.image, 
+        board.position(pieces.white_pawn.eight.x), 
+        board.position(pieces.white_pawn.eight.y)
+        )
+
+        love.graphics.draw(
         pieces.white_knight.image, 
         board.position(pieces.white_knight.first.x), 
         board.position(pieces.white_knight.first.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_knight.image, 
+        board.position(pieces.white_knight.second.x), 
+        board.position(pieces.white_knight.second.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_bishop.image, 
+        board.position(pieces.white_bishop.first.x), 
+        board.position(pieces.white_bishop.first.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_bishop.image, 
+        board.position(pieces.white_bishop.second.x), 
+        board.position(pieces.white_bishop.second.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_rook.image, 
+        board.position(pieces.white_rook.first.x), 
+        board.position(pieces.white_rook.first.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_rook.image, 
+        board.position(pieces.white_rook.second.x), 
+        board.position(pieces.white_rook.second.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_rook.image, 
+        board.position(pieces.white_rook.first.x), 
+        board.position(pieces.white_rook.first.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_rook.image, 
+        board.position(pieces.white_rook.second.x), 
+        board.position(pieces.white_rook.second.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_rook.image, 
+        board.position(pieces.white_queen.x), 
+        board.position(pieces.white_queen.y)
+        )
+
+        love.graphics.draw(
+        pieces.white_rook.image, 
+        board.position(pieces.white_king.x), 
+        board.position(pieces.white_king.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_pawn.image, 
+        board.position(pieces.black_pawn.first.x), 
+        board.position(pieces.black_pawn.first.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_pawn.image, 
+        board.position(pieces.black_pawn.second.x), 
+        board.position(pieces.black_pawn.second.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_pawn.image, 
+        board.position(pieces.black_pawn.third.x), 
+        board.position(pieces.black_pawn.third.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_pawn.image, 
+        board.position(pieces.black_pawn.fourth.x), 
+        board.position(pieces.black_pawn.fourth.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_pawn.image, 
+        board.position(pieces.black_pawn.fifth.x), 
+        board.position(pieces.black_pawn.fifth.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_pawn.image, 
+        board.position(pieces.black_pawn.sixth.x), 
+        board.position(pieces.black_pawn.sixth.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_pawn.image, 
+        board.position(pieces.black_pawn.seventh.x), 
+        board.position(pieces.black_pawn.seventh.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_pawn.image, 
+        board.position(pieces.black_pawn.eight.x), 
+        board.position(pieces.black_pawn.eight.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_knight.image, 
+        board.position(pieces.black_knight.first.x), 
+        board.position(pieces.black_knight.first.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_knight.image, 
+        board.position(pieces.black_knight.second.x), 
+        board.position(pieces.black_knight.second.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_bishop.image, 
+        board.position(pieces.black_bishop.first.x), 
+        board.position(pieces.black_bishop.first.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_bishop.image, 
+        board.position(pieces.black_bishop.second.x), 
+        board.position(pieces.black_bishop.second.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_rook.image, 
+        board.position(pieces.black_rook.first.x), 
+        board.position(pieces.black_rook.first.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_rook.image, 
+        board.position(pieces.black_rook.second.x), 
+        board.position(pieces.black_rook.second.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_rook.image, 
+        board.position(pieces.black_rook.first.x), 
+        board.position(pieces.black_rook.first.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_rook.image, 
+        board.position(pieces.black_rook.second.x), 
+        board.position(pieces.black_rook.second.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_rook.image, 
+        board.position(pieces.black_queen.x), 
+        board.position(pieces.black_queen.y)
+        )
+
+        love.graphics.draw(
+        pieces.black_rook.image, 
+        board.position(pieces.black_king.x), 
+        board.position(pieces.black_king.y)
         )
 end
 
