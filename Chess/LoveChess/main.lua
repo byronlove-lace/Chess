@@ -2,65 +2,30 @@
 
 _G.love = require("love")
 
+function gen_board()
 
-function init_board()
-
-        local initial_board = {}
+        local board = {}
         local letters = 'abcdefgh'
 
         for i = 1, 8 do
-                initial_board[i] = {}
                 for j = 1, 8 do
                         local letter = string.sub(letters, j, j) 
                         local square = letter..i
-                        initial_board[i][j] = {square, "E"}
-                end
-        end
-
-        for i = 1, #initial_board do
-                for j = 1, #initial_board[i] do
-                        if string.sub(initial_board[i][j][1], 2, 2) == "2" then
-                                initial_board[i][j][2] = "WP"
-                        end
-                        if string.sub(initial_board[i][j][1], 2, 2) == "7" then
-                                initial_board[i][j][2] = "BP"
-                        end
-                        if string.match(initial_board[i][j][1], "[bg][1]") then
-                                initial_board[i][j][2] = "WN"
-                        end
-                        if string.match(initial_board[i][j][1], "[bg][8]") then
-                                initial_board[i][j][2] = "BN"
-                        end
-                        if string.match(initial_board[i][j][1], "[cf][1]") then
-                                initial_board[i][j][2] = "WB"
-                        end
-                        if string.match(initial_board[i][j][1], "[cf][8]") then
-                                initial_board[i][j][2] = "BB"
-                        end
-                        if string.match(initial_board[i][j][1], "[ah][1]") then
-                                initial_board[i][j][2] = "WR"
-                        end
-                        if string.match(initial_board[i][j][1], "[ah][8]") then
-                                initial_board[i][j][2] = "BR"
-                        end
-                        if initial_board[i][j][1] == "d1" then
-                                initial_board[i][j][2] = "WQ"
-                        end
-                        if initial_board[i][j][1] == "d8" then
-                                initial_board[i][j][2] = "BQ"
-                        end
-                        if initial_board[i][j][1] == "e1" then
-                                initial_board[i][j][2] = "WK"
-                        end
-                        if initial_board[i][j][1] == "e8" then
-                                initial_board[i][j][2] = "BK"
-                        end
+                        board.square = 'E'
                 end
         end
         
-        return initial_board
-end
+        local wp_count = 1, 
 
+        for i = 1, #board do
+                if string.sub(pieces[i], 2, 2) == '2' then
+                        board[i] = 'WP'..wp_count
+                        wp_count = wp_count + 1
+                end
+        end
+        
+        return board
+end
 
 function white_pawn_moves(board, row, column) 
 
@@ -256,6 +221,7 @@ function love.load()
                         image = love.graphics.newImage('sprites/white_king.png'),
                         castle_left = true,
                         castle_right = true,
+                        check = false,
                         x = 5,
                         y = 8
                 },
@@ -370,6 +336,7 @@ function love.load()
                         image = love.graphics.newImage('sprites/black_king.png'),
                         castle_left = true,
                         castle_right = true,
+                        check = false,
                         x = 5,
                         y = 1
                 },
@@ -379,10 +346,39 @@ function love.load()
                 choose = false,
                 x = 1,
                 y = 1
+        },
+
+        smart_board = {
+                WP1 = {
+                pieces.white_pawn.first.x,
+                pieces.white_pawn.first.y,
+        },
+
         }
 end
 
 function love.update(dt)
+
+        if turn ~= turn then
+                --boardcheck
+                --
+                for i = 1, #board do
+                        for j = 1, #board[i] do
+
+                                        if string.sub(board[i][j][2], 2, 2) == "P" then
+                                                table.insert(movable_pieces, p_moves(turn, i, j))
+                                        end
+                                        if string.sub(board[i][j][2], 2, 2) == "N" then
+                                                table.insert(movable_pieces, n_moves(turn, i, j))
+                                        end
+                                        if string.sub(board[i][j][2], 2, 2) == "B" then
+                                                table.insert(movable_pieces, b_moves(turn, i, j))
+                                        end
+                        end
+                end
+
+        end
+
         if selector.choose == false then
                 function love.keypressed(key, scancode)
 
