@@ -20,76 +20,68 @@ function gen_board()
 
         for k, v in pairs(board) do
                 if string.sub(k, 2, 2) == '2' then
-                        print('WP'..wp_count)
-                        board.k = v..wp_count
-                        wp_count = wp_count + 1
-                end
-
-                if string.sub(k, 2, 2) == '2' then
-                        board.k = 'WP'..wp_count
+                        board[k] = 'WP'..wp_count
                         wp_count = wp_count + 1
                 end
 
                 if string.match(k, "b1") then
-                        board.k = "WN1"
+                        board[k] = "WN1"
                 end
                 if string.match(k, "g1") then
-                        board.k = "WN2"
+                        board[k] = "WN2"
                 end
                 if string.match(k, "c1") then
-                        board.k = "WB1"
+                        board[k] = "WB1"
                 end
                 if string.match(k, "f1") then
-                        board.k = "WB2"
+                        board[k] = "WB2"
                 end
                 if string.match(k, "a1") then
-                        board.k = "WR2"
+                        board[k] = "WR1"
                 end
                 if string.match(k, "h1") then
-                        board.k = "WR2"
+                        board[k] = "WR2"
                 end
                 if string.match(k, "d1") then
-                        board.k = "WQ"
+                        board[k] = "WQ"
                 end
                 if string.match(k, "e1") then
-                        board.k = "WK"
+                        board[k] = "WK"
                 end
 
 
                 if string.sub(k, 2, 2) == '7' then
-                        board.k = 'BP'..bp_count
-                        wp_count = bp_count + 1
+                        board[k] = 'BP'..bp_count
+                        bp_count = bp_count + 1
                 end
                 if string.match(k, "b8") then
-                        board.k = "BN1"
+                        board[k] = "BN1"
                 end
                 if string.match(k, "g8") then
-                        board.k = "BN2"
+                        board[k] = "BN2"
                 end
                 if string.match(k, "c8") then
-                        board.k = "BB1"
+                        board[k] = "BB1"
                 end
                 if string.match(k, "f8") then
-                        board.k = "BB2"
+                        board[k] = "BB2"
                 end
                 if string.match(k, "a8") then
-                        board.k = "BR1"
+                        board[k] = "BR1"
                 end
                 if string.match(k, "h8") then
-                        board.k = "BR2"
+                        board[k] = "BR2"
                 end
                 if string.match(k, "d8") then
-                        board.k = "BQ"
+                        board[k] = "BQ"
                 end
                 if string.match(k, "e8") then
-                        board.k = "BK"
+                        board[k] = "BK"
                 end
         end
 
         return board
 end
-
-
 for i = 1, #check do
         print(i)
 end
