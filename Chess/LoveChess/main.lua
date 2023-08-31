@@ -11,20 +11,87 @@ function gen_board()
                 for j = 1, 8 do
                         local letter = string.sub(letters, j, j) 
                         local square = letter..i
-                        board.square = 'E'
+                        board[square] = 'E'
                 end
         end
         
-        local wp_count = 1, 
+        local wp_count = 1
+        local bp_count = 1
 
-        for i = 1, #board do
-                if string.sub(pieces[i], 2, 2) == '2' then
-                        board[i] = 'WP'..wp_count
+        for k, v in pairs(board) do
+                if string.sub(k, 2, 2) == '2' then
+                        print('WP'..wp_count)
+                        board.k = v..wp_count
                         wp_count = wp_count + 1
                 end
+
+                if string.sub(k, 2, 2) == '2' then
+                        board.k = 'WP'..wp_count
+                        wp_count = wp_count + 1
+                end
+
+                if string.match(k, "b1") then
+                        board.k = "WN1"
+                end
+                if string.match(k, "g1") then
+                        board.k = "WN2"
+                end
+                if string.match(k, "c1") then
+                        board.k = "WB1"
+                end
+                if string.match(k, "f1") then
+                        board.k = "WB2"
+                end
+                if string.match(k, "a1") then
+                        board.k = "WR2"
+                end
+                if string.match(k, "h1") then
+                        board.k = "WR2"
+                end
+                if string.match(k, "d1") then
+                        board.k = "WQ"
+                end
+                if string.match(k, "e1") then
+                        board.k = "WK"
+                end
+
+
+                if string.sub(k, 2, 2) == '7' then
+                        board.k = 'BP'..bp_count
+                        wp_count = bp_count + 1
+                end
+                if string.match(k, "b8") then
+                        board.k = "BN1"
+                end
+                if string.match(k, "g8") then
+                        board.k = "BN2"
+                end
+                if string.match(k, "c8") then
+                        board.k = "BB1"
+                end
+                if string.match(k, "f8") then
+                        board.k = "BB2"
+                end
+                if string.match(k, "a8") then
+                        board.k = "BR1"
+                end
+                if string.match(k, "h8") then
+                        board.k = "BR2"
+                end
+                if string.match(k, "d8") then
+                        board.k = "BQ"
+                end
+                if string.match(k, "e8") then
+                        board.k = "BK"
+                end
         end
-        
+
         return board
+end
+
+
+for i = 1, #check do
+        print(i)
 end
 
 function white_pawn_moves(board, row, column) 
