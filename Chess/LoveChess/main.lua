@@ -6,6 +6,7 @@ function gen_board()
 
         local board = {}
         local letters = 'abcdefgh'
+        --DUPES--
 
         for i = 1, 8 do
                 for j = 1, 8 do
@@ -82,8 +83,24 @@ function gen_board()
 
         return board
 end
-for i = 1, #check do
-        print(i)
+
+function algebra_coords(square) 
+        local letters = 'abcdefgh'
+        --DUPES--
+        local x_letter = string.sub(square, 1, 1)
+        local x = 0
+        local y = 0
+        x = string.find(letters, x_letter)
+        y = tonumber(string.sub(square, 2, 2))
+        return x, y
+end
+
+function coords_algebra(x, y)
+        local letters = 'abcdefgh'
+        local x_letter = string.sub(letters, x, x)
+        --DUPES--
+        alg = x_letter..y
+        return alg
 end
 
 function white_pawn_moves(board, row, column) 
