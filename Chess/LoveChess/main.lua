@@ -107,14 +107,14 @@ function coords_algebra(x, y)
         return alg
 end
 
-function white_pawn_moves(board, row, column) 
+function wp_moves(board, col, row) 
 
-        local position = {row, column}
-        local initial_square = coords_algebra(row, column)
-        local single_forward = coords_algebra(row, column + 1)
-        local double_forward = coords_algebra(row, column + 2)
-        local take_left = coords_algebra(row - 1, column + 1)
-        local take_right = coords_algebra(row + 1, column + 1)
+        local position = {col, row}
+        local initial_square = coords_algebra(col, row)
+        local single_forward = coords_algebra(col, row + 1)
+        local double_forward = coords_algebra(col, row + 2)
+        local take_left = coords_algebra(col - 1, row + 1)
+        local take_right = coords_algebra(col + 1, row + 1)
         local moves = {}
         
         if row < 8 then
@@ -127,14 +127,14 @@ function white_pawn_moves(board, row, column)
                         table.insert(moves, double_forward)
                 end
 
-                if column > 1 then
+                if col > 1 then
                         if string.sub(board[take_left], 1, 1) == 'B' then
                                 table.insert(moves, take_left)
                         end
                 --insert ep logic: need a func that logs moves-- 
                 end
 
-                if column < 8 then 
+                if col < 8 then 
                         if string.sub(board[take_right], 1, 1) == 'B' then
                                 table.insert(moves, take_right)
                         end
@@ -153,7 +153,7 @@ function calc_moves(board, x, y)
         local target = board[position]
         -- how can i turn check here?
         if string.sub(board[position], 2, 2) == 'P' then
-                local moves = white_pawn_moves(board, x, y)
+                local moves = wp_moves(board, x, y)
                 print('hi')
         end
 end
