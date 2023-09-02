@@ -106,64 +106,42 @@ end
 function white_pawn_moves(board, row, column) 
 
         local position = {row, column}
-        local moves = {}        
+        local initial_square = coords_algebra(row, column)
+        local single_forward = coords_algebra(row, column + 1)
+        local double_forward = coords_algebra(row, column + 2)
+        local take_left = coords_algebra(row - 1, column + 1)
+        local take_right = coords_algebra(row + 1, column + 1)
+        local moves = {}
         
         if row < 8 then
-                -- single
-                if board[row + 1][column][2] == "E" then
-                        table.insert(moves, {row + 1, column}) 
 
-                -- double
-                        if string.sub(board[row][column][1], 2, 2) == "2" then
-                                if board[row + 2][column][2] == "E" then
-                                        table.insert(moves, {row + 2, column})
-                                end
-                        end
+                if board[single_forward] == 'E' then
+                        table.insert(moves, single_forward)
                 end
 
-                -- take right
-                if column < 8 then
-                        if string.sub(board[row + 1][column + 1][2], 1, 1) == "B" then
-                                table.insert(moves, {row + 1, column + 1})
-                        end
+                if board[double_forward] == 'E' then
+                        table.insert(moves, double_forward)
                 end
 
-                -- take left
                 if column > 1 then
-                        if string.sub(board[row + 1][column - 1][2], 1, 1) == "B" then
-                                table.insert(moves, {row + 1, column - 1})
+                        if string.sub(board[take_left], 1, 1) == 'B' then
+                                table.insert(moves, take_left)
                         end
-                end
-                
-                -- en passant 
-                -- only works if the last turn was a double; you need to account for this
-                if string.sub(board[row][column][1], 2, 2) == "5" then
-                        if board.last_move then
-                                if string.sub(board.board.last_move[2], 2, 2) == "7" then
-                                        -- ep right
-                                        if column < 8 then 
-                                                if board[row][column + 1][1] == board.last_move[3] then
-                                                        if board[row + 1][column + 1][2] == "E" then
-                                                                table.insert(moves, {row + 1, column + 1})
-                                                        end
-                                                end
-                                        end
-                                end
-                                        -- ep left
-                                        if column > 1 then
-                                                if board[row][column - 1][1] == board.last_move[3] then
-                                                        if board[row + 1][column - 1][2] == "E" then
-                                                                table.insert(moves, {row + 1, column - 1})
-                                                        end
-                                                end
-                                        end
-                                end
-                        end
+                --insert ep logic: need a func that logs moves-- 
                 end
 
+                if column < 8 then 
+                        if string.sub(board[take_right], 1, 1) == 'B' then
+                                table.insert(moves, take_right)
+                        end
+                end
+                --insert ep logic: need a func that logs moves-- 
+        end
+        for i = 1, #moves do
+                moves[i] = albegra_coords(moves[i])
                 return {moves} 
         end
-
+end
 
 function love.load()
 
@@ -171,7 +149,7 @@ function love.load()
                 image = love.graphics.newImage('sprites/board.png'),
                 border = 7,
                 square = 88.25,
-                state = init_board(),
+                state = gen_board(),
                 turn = "white",
                 last_move = nil
         }
@@ -422,15 +400,8 @@ function love.load()
                 choose = false,
                 x = 1,
                 y = 1
-        },
-
-        smart_board = {
-                WP1 = {
-                pieces.white_pawn.first.x,
-                pieces.white_pawn.first.y,
-        },
-
         }
+
 end
 
 function love.update(dt)
@@ -459,19 +430,19 @@ function love.update(dt)
                 function love.keypressed(key, scancode)
 
                         if scancode == "j" then
-                                selector.y = selector.y + board.square
+                                selector.y = selector.y + 1
                         end
 
                         if scancode == "k" then
-                                selector.y = selector.y - board.square
+                                selector.y = selector.y - 1 
                         end
 
                         if scancode == "h" then
-                                selector.x = selector.x - board.square
+                                selector.x = selector.x - 1 
                         end
 
                         if scancode == "l" then
-                                selector.x = selector.x + board.square
+                                selector.x = selector.x + 1
                         end
 
                         if scancode == "Enter" then
@@ -491,8 +462,8 @@ function love.draw()
 
         love.graphics.rectangle(
         "fill", 
-        board.position(selector.x), 
-        board.position(selector.y), 
+        board.border + board.square * (selector.x - 1), 
+        board.border + board.square * (selector.y - 1), 
         90, 
         90
         )
@@ -703,4 +674,3 @@ function love.draw()
         board.position(pieces.black_king.y)
         )
 end
-
