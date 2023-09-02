@@ -86,20 +86,24 @@ end
 
 function algebra_coords(square) 
         local letters = 'abcdefgh'
+        local numbers = '87654321'
         --DUPES--
         local x_letter = string.sub(square, 1, 1)
+        local y_number = tonumber(string.sub(square, 2, 2))
         local x = 0
         local y = 0
         x = string.find(letters, x_letter)
-        y = tonumber(string.sub(square, 2, 2))
+        y = string.find(numbers, y_number)
         return x, y
 end
 
 function coords_algebra(x, y)
         local letters = 'abcdefgh'
+        local numbers = '87654321'
         local x_letter = string.sub(letters, x, x)
+        local y_numbers = string.sub(numbers, y, y)
         --DUPES--
-        alg = x_letter..y
+        alg = x_letter..y_numbers
         return alg
 end
 
@@ -138,10 +142,22 @@ function white_pawn_moves(board, row, column)
                 --insert ep logic: need a func that logs moves-- 
         end
         for i = 1, #moves do
-                moves[i] = albegra_coords(moves[i])
+                moves[i] = algebra_coords(moves[i])
                 return {moves} 
         end
 end
+
+function calc_moves(board, x, y)
+        local position = coords_algebra(x, y)
+        print(board[position])
+        local target = board[position]
+        -- how can i turn check here?
+        if string.sub(board[position], 2, 2) == 'P' then
+                local moves = white_pawn_moves(board, x, y)
+                print('hi')
+        end
+end
+
 
 function love.load()
 
@@ -445,7 +461,8 @@ function love.update(dt)
                                 selector.x = selector.x + 1
                         end
 
-                        if scancode == "Enter" then
+                        if scancode == "f" then
+                                calc_moves(board.state, selector.x, selector.y)
                                 selector.choose = true
                         end
                 end
