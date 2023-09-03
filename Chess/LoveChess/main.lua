@@ -423,22 +423,6 @@ function love.update(dt)
 
         if turn ~= turn then
                 --boardcheck
-                --
-                for i = 1, #board do
-                        for j = 1, #board[i] do
-
-                                        if string.sub(board[i][j][2], 2, 2) == "P" then
-                                                table.insert(movable_pieces, p_moves(turn, i, j))
-                                        end
-                                        if string.sub(board[i][j][2], 2, 2) == "N" then
-                                                table.insert(movable_pieces, n_moves(turn, i, j))
-                                        end
-                                        if string.sub(board[i][j][2], 2, 2) == "B" then
-                                                table.insert(movable_pieces, b_moves(turn, i, j))
-                                        end
-                        end
-                end
-
         end
 
         if selector.choose == false then
@@ -463,7 +447,7 @@ function love.update(dt)
 
                         if scancode == "f" then
                                 pos_moves = calc_moves(board.state, selector.x, selector.y)
-                                if pos_moves ~= nil then
+                                if #pos_moves > 0 then
                                         selector.choose = true
                                 end
                         end
