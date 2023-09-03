@@ -16,13 +16,11 @@ function gen_board()
                 end
         end
         
-        local wp_count = 1
-        local bp_count = 1
-
         for k, v in pairs(board) do
                 if string.sub(k, 2, 2) == '2' then
-                        board[k] = 'WP'..wp_count
-                        wp_count = wp_count + 1
+                        local x_letter = string.sub(k, 1, 1)
+                        local pawn_num = string.find(letters, x_letter)
+                        board[k] = 'WP'..pawn_num
                 end
 
                 if string.match(k, "b1") then
@@ -52,8 +50,9 @@ function gen_board()
 
 
                 if string.sub(k, 2, 2) == '7' then
-                        board[k] = 'BP'..bp_count
-                        bp_count = bp_count + 1
+                        local x_letter = string.sub(k, 1, 1)
+                        local pawn_num = string.find(letters, x_letter)
+                        board[k] = 'BP'..pawn_num
                 end
                 if string.match(k, "b8") then
                         board[k] = "BN1"
@@ -94,7 +93,7 @@ function algebra_coords(square)
         local y = 0
         x = string.find(letters, x_letter)
         y = string.find(numbers, y_number)
-        return x, y
+        return {x, y}
 end
 
 function coords_algebra(x, y)
@@ -157,7 +156,6 @@ function calc_moves(board, x, y)
                 print('hi')
         end
 end
-
 
 function love.load()
 
