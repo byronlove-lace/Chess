@@ -150,9 +150,10 @@ end
 
 function calc_moves(board, x, y)
         local position = coords_algebra(x, y)
+        local moves = {}
         -- how can i turn check here?
         if string.sub(board[position], 2, 2) == 'P' then
-                local moves = wp_moves(board, x, y)
+                moves = wp_moves(board, x, y)
         end
         return moves
 end
@@ -460,10 +461,9 @@ function love.update(dt)
                         end
 
                         if scancode == "f" then
-                                local moves = calc_moves(board.state, selector.x, selector.y)
-                                if moves ~= nil then
+                                local pos_moves = calc_moves(board.state, selector.x, selector.y)
+                                if pos_moves ~= nil then
                                         selector.choose = true
-                                        print(#moves)
                                 end
                         end
                 end
