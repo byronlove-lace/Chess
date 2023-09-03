@@ -463,8 +463,7 @@ function love.update(dt)
                                 local moves = calc_moves(board.state, selector.x, selector.y)
                                 if moves ~= nil then
                                         selector.choose = true
-                                        print(moves[1])
-                                        print(moves[2])
+                                        print(#moves)
                                 end
                         end
                 end
