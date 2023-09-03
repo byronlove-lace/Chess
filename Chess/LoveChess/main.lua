@@ -93,6 +93,8 @@ function algebra_coords(square)
         local y = 0
         x = string.find(letters, x_letter)
         y = string.find(numbers, y_number)
+        print(x)
+        print(y)
         return {x, y}
 end
 
@@ -110,8 +112,8 @@ function wp_moves(board, col, row)
 
         local position = {col, row}
         local initial_square = coords_algebra(col, row)
-        local single_forward = coords_algebra(col, row + 1)
-        local double_forward = coords_algebra(col, row + 2)
+        local single_forward = coords_algebra(col, (row + 1))
+        local double_forward = coords_algebra(col, (row + 2))
         local take_left = coords_algebra(col - 1, row + 1)
         local take_right = coords_algebra(col + 1, row + 1)
         local moves = {}
@@ -142,19 +144,17 @@ function wp_moves(board, col, row)
         end
         for i = 1, #moves do
                 moves[i] = algebra_coords(moves[i])
-                return {moves} 
         end
+                return moves 
 end
 
 function calc_moves(board, x, y)
         local position = coords_algebra(x, y)
-        print(board[position])
-        local target = board[position]
         -- how can i turn check here?
         if string.sub(board[position], 2, 2) == 'P' then
                 local moves = wp_moves(board, x, y)
-                print('hi')
         end
+        return moves
 end
 
 function love.load()
@@ -460,11 +460,17 @@ function love.update(dt)
                         end
 
                         if scancode == "f" then
-                                calc_moves(board.state, selector.x, selector.y)
-                                selector.choose = true
+                                local moves = calc_moves(board.state, selector.x, selector.y)
+                                if moves ~= nil then
+                                        selector.choose = true
+                                        print(moves[1])
+                                        print(moves[2])
+                                end
                         end
                 end
         else
+                
+                -- insert input for choosing moves here
                 -- if selector.choose == true
                 -- Problem: this square should have a piece that has possible moves; else enter should do nothing
                 -- end: selector.choose = false
@@ -482,6 +488,7 @@ function love.draw()
         90, 
         90
         )
+        -- if selector.choose == true logic should go here: highlight possible spaces; should change colour of selector/options
 
         love.graphics.setColor(1, 1, 1, 1)
 
