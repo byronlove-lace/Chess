@@ -443,6 +443,7 @@ function love.update(dt)
 
         if selector.choose == false then
                 function love.keypressed(key, scancode)
+                        local pos_moves = {}
 
                         if scancode == "j" then
                                 selector.y = selector.y + 1
@@ -461,7 +462,7 @@ function love.update(dt)
                         end
 
                         if scancode == "f" then
-                                local pos_moves = calc_moves(board.state, selector.x, selector.y)
+                                pos_moves = calc_moves(board.state, selector.x, selector.y)
                                 if pos_moves ~= nil then
                                         selector.choose = true
                                 end
