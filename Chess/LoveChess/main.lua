@@ -414,7 +414,9 @@ function love.load()
         selector = {
                 choose = false,
                 x = 1,
-                y = 1
+                y = 1,
+                pos_moves = {}
+
         }
 
 end
@@ -425,44 +427,53 @@ function love.update(dt)
                 --boardcheck
         end
 
-        if selector.choose == false then
-                function love.keypressed(key, scancode)
-                        local pos_moves = {}
+        function love.keypressed(key, scancode)
 
-                        if scancode == "j" then
-                                selector.y = selector.y + 1
-                        end
+                if scancode == "j" then
+                        selector.y = selector.y + 1
+                end
 
-                        if scancode == "k" then
-                                selector.y = selector.y - 1 
-                        end
+                if scancode == "k" then
+                        selector.y = selector.y - 1 
+                end
 
-                        if scancode == "h" then
-                                selector.x = selector.x - 1 
-                        end
+                if scancode == "h" then
+                        selector.x = selector.x - 1 
+                end
 
-                        if scancode == "l" then
-                                selector.x = selector.x + 1
-                        end
+                if scancode == "l" then
+                        selector.x = selector.x + 1
+                end
 
-                        if scancode == "f" then
-                                pos_moves = calc_moves(board.state, selector.x, selector.y)
-                                if #pos_moves > 0 then
+                if scancode == "q" then
+                        selector.choose = false
+                end
+
+                
+                if scancode == "f" then
+                        if selector.choose == false then
+                                selector.pos_moves = calc_moves(board.state, selector.x, selector.y)
+                                if #selector.pos_moves > 0 then
                                         selector.choose = true
+                                        print('onetime')
                                 end
                         end
+                        if selector.choose == true then
+                                print('ohi')
+                                -- insert input for choosing moves here
+                                -- if selector.choose == true
+                                -- Problem: this square should have a piece that has possible moves; else enter should do nothing
+                                -- end: selector.choose = false
+                        end
+
+
                 end
-        else
-                
-                -- insert input for choosing moves here
-                -- if selector.choose == true
-                -- Problem: this square should have a piece that has possible moves; else enter should do nothing
-                -- end: selector.choose = false
         end
 end
 
 function love.draw()
         love.graphics.draw(board.image, 0, 0)
+
         love.graphics.setColor(70/255, 200/255, 235/255, 1)
 
         love.graphics.rectangle(
@@ -472,9 +483,25 @@ function love.draw()
         90, 
         90
         )
-        -- if selector.choose == true logic should go here: highlight possible spaces; should change colour of selector/options
-
         love.graphics.setColor(1, 1, 1, 1)
+
+        -- if selector.choose == true logic should go here: highlight possible spaces; should change colour of selector/options
+        if selector.choose == true then
+                for i = 1, #selector.pos_moves do
+
+                        love.graphics.setColor(255/255, 229/255, 180/255, 1)
+                        love.graphics.setLineWidth(5)
+                        love.graphics.rectangle(
+                        "line", 
+                        board.border + board.square * (selector.pos_moves[i][1] - 1), 
+                        board.border + board.square * (selector.pos_moves[i][2] - 1), 
+                        90, 
+                        90
+                        )
+                        love.graphics.setColor(1, 1, 1, 1)
+                        love.graphics.setLineWidth(1)
+                end
+        end
 
         love.graphics.draw(
         pieces.white_pawn.image, 
