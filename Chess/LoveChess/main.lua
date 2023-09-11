@@ -2,10 +2,12 @@
 
 _G.love = require("love")
 
-function gen_board()
+function gen_board(material)
 
         local board = {}
         local letters = 'abcdefgh'
+        local count = {"first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eight"}
+
         --DUPES--
 
         for i = 1, 8 do
@@ -20,63 +22,65 @@ function gen_board()
                 if string.sub(k, 2, 2) == '2' then
                         local x_letter = string.sub(k, 1, 1)
                         local pawn_num = string.find(letters, x_letter)
-                        board[k] = 'WP'..pawn_num
+                        local pawn_count = count[pawn_num]
+                        board[k] = material.white_pawn[pawn_count]
                 end
 
                 if string.match(k, "b1") then
-                        board[k] = "WN1"
+                        board[k] = material.white_knight.first
                 end
                 if string.match(k, "g1") then
-                        board[k] = "WN2"
+                        board[k] = material.white_knight.second
                 end
                 if string.match(k, "c1") then
-                        board[k] = "WB1"
+                        board[k] = material.white_bishop.first
                 end
                 if string.match(k, "f1") then
-                        board[k] = "WB2"
+                        board[k] = material.white_bishop.second
                 end
                 if string.match(k, "a1") then
-                        board[k] = "WR1"
+                        board[k] = material.white_rook.first
                 end
                 if string.match(k, "h1") then
-                        board[k] = "WR2"
+                        board[k] = material.white_rook.second
                 end
                 if string.match(k, "d1") then
-                        board[k] = "WQ"
+                        board[k] = material.white_queen
                 end
                 if string.match(k, "e1") then
-                        board[k] = "WK"
+                        board[k] = material.white_king
                 end
 
 
                 if string.sub(k, 2, 2) == '7' then
                         local x_letter = string.sub(k, 1, 1)
                         local pawn_num = string.find(letters, x_letter)
-                        board[k] = 'BP'..pawn_num
+                        local pawn_count = count[pawn_num]
+                        board[k] = material.black_pawn[pawn_count]
                 end
                 if string.match(k, "b8") then
-                        board[k] = "BN1"
+                        board[k] = material.black_knight.first
                 end
                 if string.match(k, "g8") then
-                        board[k] = "BN2"
+                        board[k] = material.black_knight.second
                 end
                 if string.match(k, "c8") then
-                        board[k] = "BB1"
+                        board[k] = material.black_bishop.first
                 end
                 if string.match(k, "f8") then
-                        board[k] = "BB2"
+                        board[k] = material.black_bishop.second
                 end
                 if string.match(k, "a8") then
-                        board[k] = "BR1"
+                        board[k] = material.black_rook.first
                 end
                 if string.match(k, "h8") then
-                        board[k] = "BR2"
+                        board[k] = material.black_rook.second
                 end
                 if string.match(k, "d8") then
-                        board[k] = "BQ"
+                        board[k] = material.black_queen
                 end
                 if string.match(k, "e8") then
-                        board[k] = "BK"
+                        board[k] = material.black_king
                 end
         end
 
@@ -160,11 +164,277 @@ end
 
 function love.load()
 
+
+        pieces = {
+                white_pawn = {
+                        image = love.graphics.newImage('sprites/white_pawn.png'),
+                        first = {
+                                in_play = true,
+                                moves = {},
+                                x = 1,
+                                y = 7,
+                                alg = "WP1"
+                        },
+                        second = {
+                                in_play = true,
+                                moves = {},
+                                x = 2,
+                                y = 7,
+                                alg = "WP2"
+                        },
+                        third = {
+                                in_play = true,
+                                moves = {},
+                                x = 3,
+                                y = 7,
+                                alg = "WP3"
+                        },
+                        fourth = {
+                                in_play = true,
+                                moves = {},
+                                x = 4,
+                                y = 7,
+                                alg = "WP4"
+                        },
+                        fifth = {
+                                in_play = true,
+                                moves = {},
+                                x = 5,
+                                y = 7,
+                                alg = "WP5"
+                        },
+                        sixth = {
+                                in_play = true,
+                                moves = {},
+                                x = 6,
+                                y = 7,
+                                alg = "WP6"
+                        },
+                        seventh = {
+                                in_play = true,
+                                moves = {},
+                                x = 7,
+                                y = 7,
+                                alg = "WP7"
+                        },
+                        eight = {
+                                in_play = true,
+                                moves = {},
+                                x = 8,
+                                y = 7,
+                                alg = "WP8"
+                        }
+                },
+
+                white_knight = {
+                        image = love.graphics.newImage('sprites/white_knight.png'),
+                        first = {
+                                in_play = true,
+                                moves = {},
+                                x = 2,
+                                y = 8,
+                                alg = "WK1"
+                        },
+                        second = {
+                                in_play = true,
+                                moves = {},
+                                x = 7,
+                                y = 8,
+                                alg = "WK2"
+                        }
+                },
+
+                white_bishop = {
+                        image = love.graphics.newImage('sprites/white_bishop.png'),
+                        first = {
+                                in_play = true,
+                                moves = {},
+                                x = 3,
+                                y = 8,
+                                alg = "WB1"
+                        },
+                        second = {
+                                in_play = true,
+                                moves = {},
+                                x = 6,
+                                y = 8,
+                                alg = "WB2"
+                        }
+                },
+
+                white_rook = {
+                        image = love.graphics.newImage('sprites/white_rook.png'),
+                        first = {
+                                in_play = true,
+                                moves = {},
+                                x = 1,
+                                y = 8,
+                                alg = "WR1"
+                                
+                        },
+                        second = {
+                                in_play = true,
+                                moves = {},
+                                x = 8,
+                                y = 8,
+                                alg = "WR2"
+                        }
+                },
+
+                white_queen = {
+                        image = love.graphics.newImage('sprites/white_queen.png'),
+                        x = 4,
+                        y = 8,
+                        alg = "WQ"
+                },
+
+                white_king = {
+                        image = love.graphics.newImage('sprites/white_king.png'),
+                        castle_left = true,
+                        castle_right = true,
+                        check = false,
+                        x = 5,
+                        y = 8,
+                        alg = "WK"
+                },
+
+                black_pawn = {
+                        image = love.graphics.newImage('sprites/black_pawn.png'),
+                        first = {
+                                in_play = true,
+                                moves = {},
+                                x = 1,
+                                y = 2,
+                                alg = "BP1"
+                        },
+                                second = {
+                                in_play = true,
+                                moves = {},
+                                x = 2,
+                                y = 2,
+                                alg = "BP2"
+                                },
+                                third = {
+                                in_play = true,
+                                moves = {},
+                                x = 3,
+                                y = 2,
+                                alg = "BP3"
+                                },
+                                fourth = {
+                                in_play = true,
+                                moves = {},
+                                x = 4,
+                                y = 2,
+                                alg = "BP4"
+                                },
+                                fifth = {
+                                in_play = true,
+                                moves = {},
+                                x = 5,
+                                y = 2,
+                                alg = "BP5"
+                                },
+                                sixth = {
+                                in_play = true,
+                                moves = {},
+                                x = 6,
+                                y = 2,
+                                alg = "BP6"
+                                },
+                                seventh = {
+                                in_play = true,
+                                moves = {},
+                                x = 7,
+                                y = 2,
+                                alg = "BP7"
+                                },
+                                eight = {
+                                in_play = true,
+                                moves = {},
+                                x = 8,
+                                y = 2,
+                                alg = "BP8"
+                                }
+                        },
+
+                black_knight = {
+                        image = love.graphics.newImage('sprites/black_knight.png'),
+                        first = {
+                                in_play = true,
+                                moves = {},
+                                x = 2,
+                                y = 1,
+                                alg = "BK1"
+                        },
+                        second = {
+                                in_play = true,
+                                moves = {},
+                                x = 7,
+                                y = 1,
+                                alg = "BK2"
+                        }
+                },
+
+                black_bishop = {
+                        image = love.graphics.newImage('sprites/black_bishop.png'),
+                        first = {
+                                in_play = true,
+                                moves = {},
+                                x = 3,
+                                y = 1,
+                                alg = "BB1"
+                        },
+                        second = {
+                                in_play = true,
+                                moves = {},
+                                x = 6,
+                                y = 1,
+                                alg = "BB2"
+                        }
+                },
+
+                black_rook = {
+                        image = love.graphics.newImage('sprites/black_rook.png'),
+                        first = {
+                                in_play = true,
+                                moves = {},
+                                x = 1,
+                                y = 1,
+                                alg = "BR1"
+                        },
+                        second = {
+                                in_play = true,
+                                moves = {},
+                                x = 8,
+                                y = 1,
+                                alg = "BR2"
+                        }
+                },
+
+                black_queen = {
+                        image = love.graphics.newImage('sprites/black_queen.png'),
+                        x = 4,
+                        y = 1,
+                        alg = "BQ"
+                },
+
+                black_king = {
+                        image = love.graphics.newImage('sprites/black_king.png'),
+                        castle_left = true,
+                        castle_right = true,
+                        check = false,
+                        x = 5,
+                        y = 1,
+                        alg = "BK"
+                },
+        }
+        
         board = {
                 image = love.graphics.newImage('sprites/board.png'),
                 border = 7,
                 square = 88.25,
-                state = gen_board(),
+                state = gen_board(pieces),
                 turn = "white",
                 last_move = nil
         }
@@ -177,239 +447,6 @@ function love.load()
                 return position
 
         end
-
-
-        pieces = {
-                white_pawn = {
-                        image = love.graphics.newImage('sprites/white_pawn.png'),
-                        first = {
-                                in_play = true,
-                                moves = {},
-                                x = 1,
-                                y = 7
-                        },
-                        second = {
-                                in_play = true,
-                                moves = {},
-                                x = 2,
-                                y = 7,
-                        },
-                        third = {
-                                in_play = true,
-                                moves = {},
-                                x = 3,
-                                y = 7,
-                        },
-                        fourth = {
-                                in_play = true,
-                                moves = {},
-                                x = 4,
-                                y = 7,
-                        },
-                        fifth = {
-                                in_play = true,
-                                moves = {},
-                                x = 5,
-                                y = 7,
-                        },
-                        sixth = {
-                                in_play = true,
-                                moves = {},
-                                x = 6,
-                                y = 7,
-                        },
-                        seventh = {
-                                in_play = true,
-                                moves = {},
-                                x = 7,
-                                y = 7,
-                        },
-                        eight = {
-                                in_play = true,
-                                moves = {},
-                                x = 8,
-                                y = 7,
-                        }
-                },
-
-                white_knight = {
-                        image = love.graphics.newImage('sprites/white_knight.png'),
-                        first = {
-                                in_play = true,
-                                moves = {},
-                                x = 2,
-                                y = 8,
-                        },
-                        second = {
-                                in_play = true,
-                                moves = {},
-                                x = 7,
-                                y = 8
-                        }
-                },
-
-                white_bishop = {
-                        image = love.graphics.newImage('sprites/white_bishop.png'),
-                        first = {
-                                in_play = true,
-                                moves = {},
-                                x = 3,
-                                y = 8
-                        },
-                        second = {
-                                in_play = true,
-                                moves = {},
-                                x = 6,
-                                y = 8
-                        }
-                },
-
-                white_rook = {
-                        image = love.graphics.newImage('sprites/white_rook.png'),
-                        first = {
-                                in_play = true,
-                                moves = {},
-                                x = 1,
-                                y = 8
-                        },
-                        second = {
-                                in_play = true,
-                                moves = {},
-                                x = 8,
-                                y = 8
-                        }
-                },
-
-                white_queen = {
-                        image = love.graphics.newImage('sprites/white_queen.png'),
-                        x = 4,
-                        y = 8
-                },
-
-                white_king = {
-                        image = love.graphics.newImage('sprites/white_king.png'),
-                        castle_left = true,
-                        castle_right = true,
-                        check = false,
-                        x = 5,
-                        y = 8
-                },
-
-                black_pawn = {
-                        image = love.graphics.newImage('sprites/black_pawn.png'),
-                        first = {
-                                in_play = true,
-                                moves = {},
-                                x = 1,
-                                y = 2
-                        },
-                                second = {
-                                in_play = true,
-                                moves = {},
-                                x = 2,
-                                y = 2,
-                                },
-                                third = {
-                                in_play = true,
-                                moves = {},
-                                x = 3,
-                                y = 2,
-                                },
-                                fourth = {
-                                in_play = true,
-                                moves = {},
-                                x = 4,
-                                y = 2,
-                                },
-                                fifth = {
-                                in_play = true,
-                                moves = {},
-                                x = 5,
-                                y = 2,
-                                },
-                                sixth = {
-                                in_play = true,
-                                moves = {},
-                                x = 6,
-                                y = 2,
-                                },
-                                seventh = {
-                                in_play = true,
-                                moves = {},
-                                x = 7,
-                                y = 2,
-                                },
-                                eight = {
-                                in_play = true,
-                                moves = {},
-                                x = 8,
-                                y = 2,
-                                }
-                        },
-
-                black_knight = {
-                        image = love.graphics.newImage('sprites/black_knight.png'),
-                        first = {
-                                in_play = true,
-                                moves = {},
-                                x = 2,
-                                y = 1,
-                        },
-                        second = {
-                                in_play = true,
-                                moves = {},
-                                x = 7,
-                                y = 1,
-                        }
-                },
-
-                black_bishop = {
-                        image = love.graphics.newImage('sprites/black_bishop.png'),
-                        first = {
-                                in_play = true,
-                                moves = {},
-                                x = 3,
-                                y = 1,
-                        },
-                        second = {
-                                in_play = true,
-                                moves = {},
-                                x = 6,
-                                y = 1,
-                        }
-                },
-
-                black_rook = {
-                        image = love.graphics.newImage('sprites/black_rook.png'),
-                        first = {
-                                in_play = true,
-                                moves = {},
-                                x = 1,
-                                y = 1,
-                        },
-                        second = {
-                                in_play = true,
-                                moves = {},
-                                x = 8,
-                                y = 1,
-                        }
-                },
-
-                black_queen = {
-                        image = love.graphics.newImage('sprites/black_queen.png'),
-                        x = 4,
-                        y = 1
-                },
-
-                black_king = {
-                        image = love.graphics.newImage('sprites/black_king.png'),
-                        castle_left = true,
-                        castle_right = true,
-                        check = false,
-                        x = 5,
-                        y = 1
-                },
-        }
 
         selector = {
                 choose = false,
@@ -457,9 +494,14 @@ function love.update(dt)
                                         selector.choose = true
                                         print('onetime')
                                 end
-                        end
-                        if selector.choose == true then
-                                print('ohi')
+                        else
+                                for i = 1, #selector.pos_moves do
+                                        if selector.x == selector.pos_moves[i][1] and selector.y == selector.pos_moves[i][2] then
+                                                print('target aquired')
+                                                selector.choose = false
+                                        end
+                                end
+                                        
                                 -- insert input for choosing moves here
                                 -- if selector.choose == true
                                 -- Problem: this square should have a piece that has possible moves; else enter should do nothing
