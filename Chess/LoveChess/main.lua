@@ -426,7 +426,7 @@ function love.load()
                         check = false,
                         x = 5,
                         y = 1,
-                        alg = "BK"
+                        alg = "BQ"
                 },
         }
         
